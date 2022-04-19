@@ -1,0 +1,51 @@
+
+<script context="module">
+  export const prerender = true;
+</script>
+
+## NumberThink Starter: A simple starter template for Svelte projects 
+
+Goodies included:
+  - SvelteKit
+  - Tailwind 3 + Tailwind Typography
+  - ThreeJS
+  - AWS Amplify (optional)
+
+Give it a try, remove anything you don't like, and let me know what you think!
+
+## Live Demo
+
+See https://starter.numberthink.com/.
+
+## Key Features and Design Considerations:
+
+- Features
+  - Dark/Light mode
+  - 
+- Minor design/UX touches
+  - Navlink hover effect
+  - Mobile/Responsive styling
+  - Mobile menu with animation
+  - Accessibility
+  - Custom scrollbar https://css-tricks.com/strut-your-stuff-with-a-custom-scrollbar/
+
+
+## Setup
+
+```bash
+npx degit https://github.com/numberthink/svelte-starter
+npm install
+npm run start
+```
+
+You should be able to deploy this project straight to AWS Amplify as is.
+
+Before deploying, remember to configure `/lib/siteConfig.js`
+
+## Acknowledgements
+
+- Inspired by and based off of swyx-kit: https://github.com/sw-yx/swyxkit (Thank you!)
+- MDSvex from Pngwn: https://mdsvex.pngwn.io/docs#layout
+- This awesome color scheme article from Adam Argyle: https://web.dev/building-a-color-scheme/
+- Find more sveltekit projects here: https://github.com/janosh/awesome-svelte-kit
+
