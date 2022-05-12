@@ -1,5 +1,24 @@
 import { writable, derived } from 'svelte/store';
 
+
+
+export const colorParameters = writable({
+    mainColors: {
+        color1: {hsl: [150,40,35]},
+        color2: {hsl: [50,40,25]}
+    },
+    light: {
+        color1Surface1: {saturation: 20, lightness: 10}
+    },
+    dark: {
+
+        color1Surface1: {saturation: 20, lightness: 10}
+    }
+
+});
+
+
+
 export const colors = writable({
     'palette': {'light': {
         'color1': {
@@ -356,10 +375,6 @@ export const color_parameters = writable({
     }
 });
 
-// export const colors2 = derived(
-//     color_parameters,
-//     $color_parameters => 
-// );
 
 export const color_palette = derived(
 	colors,
@@ -368,11 +383,13 @@ export const color_palette = derived(
 
 
 export const device = writable({
+    'windowWidth': 100,
+    'windowHeight': 100,
     'window_width': 100,
     'window_height': 100,
     'scroll_y': 0
     // TODO: can also add scroll y and/or scroll x, device type
-})
+});
 
 export const color_schemes = writable({
     'saved': {

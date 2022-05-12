@@ -15,3 +15,5 @@ export type testItem = {
 		name: string;
 	}[];
 };
+
+/** @type {import('$lib/types').GHComment} */

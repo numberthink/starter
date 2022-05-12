@@ -2,7 +2,7 @@
 	import MobileMenu from './MobileMenu.svelte';
 	import { REPO_URL } from '$lib/siteConfig';
 	import NavLink from './NavLink.svelte';
-	import {themes} from '../stores/settings.js';
+
 	import {colors} from '../stores/layout.js';
 	import { menuLayout } from '$lib/layoutConfig';
 	import {onColorChange} from '../stores/functions.js';
@@ -13,7 +13,7 @@
 			(!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
 		) {
 			isDark = true;
-			$themes.dark = true;
+
 			$colors.current_mode = 'dark';
 		}
 	}
@@ -22,13 +22,12 @@
 			document.documentElement.classList.remove('dark');
 			localStorage.theme = 'light';
 			isDark = false;
-			$themes.dark = false;
+
 			$colors.current_mode = 'light';
 		} else {
 			document.documentElement.classList.add('dark');
 			localStorage.theme = 'dark';
 			isDark = true;
-			$themes.dark = true;
 			$colors.current_mode = 'dark';
 		}
 		$onColorChange();

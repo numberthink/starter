@@ -9,222 +9,221 @@
 	import Nav from '../components/Nav.svelte';
 
 	import ThreeScene from '../components/ThreeScene.svelte';
-	import {ColorScheme} from '../lib/Utilities/Colors.js';
-	import { interface_state, viz_state} from '../stores/env.js';
-	import {colors, device, color_palette, color_parameters, color_schemes} from '../stores/layout.js';
-	import {onColorChange} from '../stores/functions.js';
+	import {ColorScheme} from '../lib/utilities/Colors.js';
+	import {Gui} from '../lib/utilities/Gui.js';
+	import { viz_state, gui, interface_state} from '../stores/env.js';
+	import {colors, device, color_palette, colorParameters, color_schemes} from '../stores/layout.js';
+	import {onColorChange, showAlert} from '../stores/functions.js';
 
 
-
+/** @type {import('@sveltejs/kit').onMount} */
 onMount(async () => {
 
-	checkStorageForColorSchemes();
+	updateColorPalette();
 
-	resetGui();
-	try {
-		getSavedColorScheme('lightBlueOrange1');
-	}
-	catch {
-		console.log('cannot find saved color scheme')
-	}
-
-	
 
 });
 
-const checkStorageForColorSchemes = () => {
-	$colors.color_scheme_options.splice(0,$colors.color_scheme_options.length);
-	try {
-		let colorSchemes = JSON.parse(localStorage.getItem('color_schemes'));
-		
-		let colorSchemeOptions = Object.keys(colorSchemes);
-		if (colorSchemeOptions.length>0) {
-			colorSchemeOptions.forEach(thisColorScheme => {
-				$color_schemes.saved[thisColorScheme] = colorSchemes[thisColorScheme];
-				$colors.color_scheme_options.push({'name': thisColorScheme, 'value': thisColorScheme});
-				console.log('got color schemes from local storage!');
-				
-			})
-		}
-	}
-	catch (err) {
-		console.log(err);
-	}
-	$colors.checked_for_color_schemes = true;
-}
-
-const resetGui = () => {
-
+const initGui = () => {
 	$gui.items = new Gui();
 	
 
-	$gui.items.addHexColor($color_parameters.main_colors.color1,'hex').name('Brand Color').onChange(() => {
-		colorParameterUpdate($color_parameters.main_colors.color1);
+	$gui.items.addHexColor($colorParameters.mainColors.color1,'hex').name('Brand Color').onChange(() => {
+		updateColorParameter({color: 'color1', category: 'main', index: 0});
 	});
-	$gui.items.addHexColor($color_parameters.main_colors.color2,'hex').name('Accent Color').onChange(() => {
-		colorParameterUpdate($color_parameters.main_colors.color2);
-	});
+	$gui.items.addHexColor($colorParameters.mainColors.color2,'hex').name('Accent Color').onChange(() => {
+		updateColorParameter({color: 'color2', category: 'main', index: 1});
+	});	
 
-	let themeOptions = ['light','dark'];
-	let themeParamFolders = {};
+	let mainColors = $colorParameters.config.colors.main;
+	let themeOptions = $colorParameters.config.themes.options;
 	themeOptions.forEach(thisTheme => {
 		let themeCapitalized = thisTheme.charAt(0).toUpperCase() + thisTheme.slice(1);
-		themeParamFolders[thisTheme] = $gui.items.addFolder(themeCapitalized + ' Parameters');
-		let theseParams = Object.keys($color_parameters[thisTheme]);
-		theseParams.forEach(thisParam => {
-		let thisParamInputs = $color_parameters[thisTheme][thisParam]['parameters'];
-		let thisParamCategory = $color_parameters['parameter_config']['categories'][$color_parameters[thisTheme][thisParam]['category']]
-			thisParamInputs.forEach(thisInput => {
-				let thisMin = thisParamCategory[thisInput]['min'];
-				let thisMax = thisParamCategory[thisInput]['max'];
-				let thisStep = thisParamCategory[thisInput]['step'];
-				let inputCapitalized = '';
-				let numWords = 0;
-				thisInput.split('_').forEach(thisWord => {
-					let beforeSpace = (numWords>0) ? ' ' : ''
-					inputCapitalized += beforeSpace + thisWord.charAt(0).toUpperCase() + thisWord.slice(1);
-					numWords +=1;
-				})
-				themeParamFolders[thisTheme].add($color_parameters[thisTheme][thisParam],thisInput, thisMin, thisMax, thisStep).name($color_parameters[thisTheme][thisParam].name + ' - ' + inputCapitalized).onChange(() => {
-				colorParameterUpdate($color_parameters[thisTheme][thisParam]);
-				$color_parameters = $color_parameters;
-				})	
-			})
-		});
-	});
+		$gui.folders[thisTheme] = $gui.items.addFolder(themeCapitalized + ' Parameters');
+		let theseCategories = Object.keys($colorParameters.config.colors.variantCategories);
+		
+		theseCategories.forEach(thisCategory=> {
+			mainColors.forEach(thisMainColor => {
+				for (let i=0;i< $colorParameters.config.colors[thisMainColor].variants[thisCategory];i++) {
+					let theseParams = $colorParameters.config.themes[thisTheme].parameters;
+					theseParams.forEach(thisParam => {
+						let thisMin = $colorParameters.config.themes[thisTheme][thisParam]['min'];
+						let thisMax = $colorParameters.config.themes[thisTheme][thisParam]['max'];
+						let thisStep = $colorParameters.config.themes[thisTheme][thisParam]['step'];
 
-	let saveColorSchemeButton = {'saveColorScheme': function() {
-		saveCurrentColorScheme($colors.color_scheme_name);
-		choseOrSavedColorScheme();
-	}};
-	$gui.items.add($colors, 'color_scheme_name',{}).name('Color Scheme Name').type('text');
-	$gui.items.add(saveColorSchemeButton, 'saveColorScheme').setId('saveColorScheme').name('Save Color Scheme') // TODO: .setActive(false);
-	let showTextButton = {'showText': function() {
-		$interface_state.text_modal_visible = true;
-		$interface_state.text_modal_content = [];
-		cssVarStyles.split(';').forEach(newLine => {
-			if (newLine.length>0) {
-				$interface_state.text_modal_content.push(newLine + ';');
-			}
-
-		});
-		$interface_state.text_modal_content_type = 'lines';
-		$interface_state.text_modal_title = 'CSS Style Variables';
-	}}
-	$gui.items.add(showTextButton, 'showText').name('Show Hard-Coded CSS Vars');
-
-	showTextButton.showJSONVars =  () => {
-		$interface_state.text_modal_visible = true;
-	
-		let newTextModalContent = {};
-		let colorKeys = ['light_palette','dark_palette'];
-		colorKeys.forEach(colorKey => {
-			newTextModalContent[colorKey] = $colors[colorKey];
-		});
-		newTextModalContent = JSON.stringify(newTextModalContent);
-		$interface_state.text_modal_content = [];
-		let newTextModalContentLines = newTextModalContent.split(',');
-		for (let i=0; i<newTextModalContentLines.length;i++) {
-			let newLine = newTextModalContentLines[i];
-			if ((i==0) ) {
-				newLine = newLine.slice(1);
-			}
-			else if (i==newTextModalContentLines.length -1) {
-				newLine = newLine.slice(0,-1);
-			}
-			if (newLine.length>0) {
-				$interface_state.text_modal_content.push(newLine + ',');
-			}
-		}
-
-		$interface_state.text_modal_content_type = 'lines';
-		$interface_state.text_modal_title = 'JSON Style Variables';
-	}
-	$gui.items.add(showTextButton, 'showJSONVars').name('Show Hard-Coded JSON Vars');
-
-	$gui.items.add($colors,'chosen_color_scheme', $colors.color_scheme_options).name('Choose Color Scheme').onChange(()=> {
-		getSavedColorScheme($colors.chosen_color_scheme);
-	});
-	let clearLocalStorageButton = {'clearStorage': function() {
-		clearLocalStorage();
-	}}
-	$gui.items.add(clearLocalStorageButton, 'clearStorage').name('Delete Saved Color Schemes');
-
-};
-function traverseElements(gui_element, elem_id) {
-  for (let i=0;i<gui_element.elements.length;i++) {
-        if (gui_element.elements[i].element_id==elem_id) {
-          return gui_element.elements[i];
-        }
-        else if (gui_element.elements[i].elements.length>0) {
-          traverseElements(gui_element.elements[i], elem_id)
-        }
-
-      }
-}
-const clearLocalStorage = () => {
-	localStorage.setItem('color_schemes', '{}');
-	resetColorSchemeOptions([]);
-	console.log('cleared!');
-}
-const resetColorSchemeOptions = (newColorSchemes) => {
-	console.log('resetting options');
-	$colors.color_scheme_options.splice(0,$colors.color_scheme_options.length);
-	if (newColorSchemes.length>0) {
-		newColorSchemes.forEach(newColorScheme=> {
-			$colors.color_scheme_options.push({'name': newColorScheme, 'value': newColorScheme})
+						// add to gui
+						$gui.folders[thisTheme].add($colorParameters.themes[thisTheme][thisMainColor][thisCategory + String(i+1)],thisParam, thisMin, thisMax, thisStep).name(thisCategory + String(i) + ' - ' + thisParam).onChange(() => {
+							updateColorParameter({theme: thisTheme, color: thisMainColor, category: thisCategory, index: i});
+							$colorParameters = $colorParameters;
+						})	
+					})
+				}
+			});
+			
 		})
-	}
-	updateGui();
-
-
-}
-const choseOrSavedColorScheme = () => {
-	console.log('chose or saved color scheme');
-	$colors.edited_color_scheme = false;
-	let elemId = 'saveColorScheme';
-      let updateField = 'element_active';
-      let updateVal = false;
-      let guiToUpdate = traverseElements($gui.items, elemId);
-      guiToUpdate[updateField] = updateVal;	
-}
-
-const editedColorScheme = () => {
-	if (!$colors.edited_color_scheme) {
-		$colors.edited_color_scheme = true;
-		$colors.chosen_color_scheme = '';
-
-		// activate save color scheme button
-		let elemId = 'saveColorScheme';
-      let updateField = 'element_active';
-      let updateVal = true;
-      let guiToUpdate = traverseElements($gui.items, elemId);
-      guiToUpdate[updateField] = updateVal;
-	}
-
-}
-
-const updateGui = () => {
-	$gui.items.elements[0].name = 'GUI';
-};
-
-
-const refreshGuiElements = (theseElements) => {
-        for (let i=0; i< theseElements.length;i++) {
-
-                try {
-                    theseElements[i].refresh();
-                }
-                catch (err) {
-                    console.log('error resetting gui');
-                    console.log(err);
-                }
-    
-            if (theseElements[i].elements.length>0) {
-                refreshGuiElements(theseElements[i].elements)
-            }
-        }
+		// add other params if applicable
+		if ($colorParameters.config.themes[thisTheme].config.otherParams.length>0) {
+			let otherParams = colorParams.config.themes[thisTheme].config.otherParams;
+			otherParams.forEach(thisOtherParam => {
+				let subParams = colorParams.config.themes[thisTheme].categories[thisOtherParam].parameters;
+				subParams.forEach(thisSubParam => {
+					let thisMin = colorParams.config.themes[thisTheme].categories[thisOtherParam][thisSubParam]['min'];
+					let thisMax = colorParams.config.themes[thisTheme].categories[thisOtherParam][thisSubParam]['max'];
+					let thisStep = colorParams.config.themes[thisTheme].categories[thisOtherParam][thisSubParam]['step'];
+					$gui.folders[thisTheme].add($colorParameters.themes[thisTheme].parameters[thisOtherParam],thisSubParam, thisMin, thisMax, thisStep).name(thisSubParam + ' - ' + thisOtherParam).onChange(() => {
+							updateColorParameter({theme: thisTheme, category: thisOtherParam});
+							$colorParameters = $colorParameters;
+						})	
+				})
+				
+			})
+        
     }
+	});
+}
+
+
+
+
+const refreshGui = () => {
+
+	refreshGuiElements($gui.items.elements);
+	
+}
+
+
+
+
+const updateColorParameter = (paramObj) => {
+	// {theme: thisTheme, color: thisMainColor, category: thisCategory, index: i}
+	// 3 types: main colors, derived color parameters, and other parameters (e.g. dark divisors)
+
+	let variantCategories = $colorParameters.config.colors.variantCategories
+
+	if (paramObj.category=='main') {
+		updateMainColorParameter(paramObj);
+	}
+	else if (variantCategories.includes(paramObj.category)) {
+		updateDerivedColorParameter(paramObj);
+	}
+	else {
+		updateOtherColorParameter(paramObj);
+	}
+}
+
+const updateMainColorParameter = (paramObj) => {
+	
+	let themeOptions = $colorParameters.config.themes.options;
+	let thisMainColor = 'color' + String(paramObj.index+1);
+	let mainHue = $colorParameters.mainColors[thisMainColor].hsl[0];
+	let mainSat = $colorParameters.mainColors[thisMainColor].hsl[1];
+	let mainLight = $colorParameters.mainColors[thisMainColor].hsl[2];
+	themeOptions.forEach(thisTheme=> {
+		if ($colorParameters.config.themes[thisTheme].config.otherParams.length>0) {
+			// need to do calculation to 'derive' main colors for this theme (e.g. divide by dark divisors)
+			// then update actual colors
+			let thisOtherParam = $colorParameters.config.themes[thisTheme].config.otherParams[0];
+			let newSat = mainSat/$colorParameters[thisTheme].parameters[thisOtherParam]['saturation'];
+			let newLight =mainLight/$colorParameters[thisTheme].parameters[thisOtherParam]['lightness'];
+			$colorParameters[thisTheme][thisMainColor].hsl = [mainHue, newSat, newLight];
+			$colors.themes[thisTheme][thisMainColor].hsl = [mainHue, newSat, newLight];
+			$colorParameters[thisTheme][thisMainColor].derived.forEach(thisDerivedColor => {
+				$colorParameters[thisTheme][thisMainColor][thisDerivedColor].hsl[0] = mainHue;
+				$colors.themes[thisTheme][thisMainColor][thisDerivedColor].hsl[0] = mainHue;
+			})
+		}
+		else {
+			// just update color parameters and colors, main and derived
+			$colorParameters[thisTheme][thisMainColor].hsl = [mainHue, mainSat, mainLight];
+			$colors.themes[thisTheme][thisMainColor].hsl = [mainHue, mainSat, mainLight];
+			$colorParameters[thisTheme][thisMainColor].derived.forEach(thisDerivedColor => {
+				$colorParameters[thisTheme][thisMainColor][thisDerivedColor].hsl[0] = mainHue;
+				$colors.themes[thisTheme][thisMainColor][thisDerivedColor].hsl[0] = mainHue;
+			})
+		}
+	})
+
+}
+const updateDerivedColorParameter = (paramObj) => {
+	// {theme: thisTheme, color: thisMainColor, category: thisCategory, index: i}
+	let thisColorName = paramObj.category + String(index+1);
+	let newSat = $colorParameters[paramObj.theme][paramObj.color][thisColorName]['saturation'];
+	let newLight = $colorParameters[paramObj.theme][paramObj.color][thisColorName]['lightness'];
+	$colorParameters[paramObj.theme][paramObj.color][thisColorName].hsl[1] = newSat;
+	$colorParameters[paramObj.theme][paramObj.color][thisColorName].hsl[2] = newLight;
+
+	$colors.themes[paramObj.theme][paramObj.color][thisColorName].hsl[1] = newSat;
+	$colors.themes[paramObj.theme][paramObj.color][thisColorName].hsl[2] = newLight;
+}
+const updateOtherColorParameter = (paramObj) => {
+	let thisTheme = paramObj.theme;
+	let thisCategory = paramObj.category;
+	let mainColors = $colorParameters.config.colors.main;
+	mainColors.forEach(thisMainColor => {
+		let mainHue = $colorParameters.mainColors[thisMainColor].hsl[0];
+		let mainSat = $colorParameters.mainColors[thisMainColor].hsl[1];
+		let mainLight = $colorParameters.mainColors[thisMainColor].hsl[2];
+		let newSat = mainSat/$colorParameters[thisTheme].parameters[thisCategory]['saturation'];
+		let newLight =mainLight/$colorParameters[thisTheme].parameters[thisCategory]['lightness'];
+		$colorParameters[thisTheme][thisMainColor].hsl = [mainHue, newSat, newLight];
+			$colors.themes[thisTheme][thisMainColor].hsl = [mainHue, newSat, newLight];
+			$colorParameters[thisTheme][thisMainColor].derived.forEach(thisDerivedColor => {
+				$colorParameters[thisTheme][thisMainColor][thisDerivedColor].hsl[0] = mainHue;
+				$colors.themes[thisTheme][thisMainColor][thisDerivedColor].hsl[0] = mainHue;
+			})		
+	})
+}
+
+// updates all colors so they are in sync with color parameters.
+const updateColorPalette = () => {
+	// color paramers -> colors.light_palette, colors.dark_palette
+	let mainColors = $colorParameters.config.colors.main;
+	let themeOptions = $colorParameters.config.themes.options;
+	let variantCategories = $colorParameters.config.colors.variantCategories;
+		// main color update
+		// take hsl of color parameter, update rgb, then update all downstream colors
+	mainColors.forEach(thisColor => {
+		// update main colors
+		let hslArray = JSON.parse(JSON.stringify( $colorParameters.mainColors[thisColor].hsl));
+		$colors.themes.light[thisColor].hsl = hslArray;				
+		let darkHSLArray = [hslArray[0],(hslArray[1])/$colorParameters.themes.dark.categories.divisors.saturation,(hslArray[2])/$colorParameters.themes.dark.categories.divisors.lightness]
+		$colors.themes.dark[thisColor].hsl = darkHSLArray;
+
+		themeOptions.forEach(thisTheme => {
+			variantCategories.forEach(thisCategory => {
+				for (let i=0;i< $colorParameters.config.colors[thisColor].variants[thisCategory];i++) {
+					let thisParamName = thisCategory+ String(i+1);
+					let thisHue = $colorParameters.mainColors[thisColor].hsl[0];
+					let thisSaturation = $colorParameters.mainColors[thisColor][thisParamName].saturation;
+					let thisLightness = $colorParameters.mainColors[thisColor][thisParamName].lightness;
+					let hslArray = [thisHue/360, thisSaturation/100, thisLightness/100];
+					$colors.themes.thisTheme[thisColor][thisParamName].hsl = hslArray; 
+				}
+
+
+			});
+
+		});
+		
+	});
+
+	
+}
+
+
+
+// codemetatag block cssVarStyles start
+$: cssVarStyles =
+`
+--main-hue:${$colorParameters.main_colors.color1.hsl[0]};
+--main-sat:${$colorParameters.main_colors.color1.hsl[1]}%;
+--main-light:${$colorParameters.main_colors.color1.hsl[2]}%;
+`;
+
+// codemetatag block cssVarStyles end
+
+// color functions
+
 const rgb2hex = (rgb) => `#${rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/).slice(1).map(n => parseInt(n, 10).toString(16).padStart(2, '0')).join('')}`
 
 const rgbToHsl = (r, g, b) => {
@@ -276,231 +275,6 @@ const hslToRgb = (h, s, l) => {
 
     return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
 }
-
-const refreshGui = () => {
-	// $gui.items.elements.forEach(thisElem => {
-	// 	if (thisElem.element_type == 'hex-color') {
-	// 		thisElem.refresh();
-	// 	}
-	// })
-	refreshGuiElements($gui.items.elements);
-	
-}
-
-
-const getSavedColorScheme = (savedColorScheme) => {
-    let newScheme = JSON.parse(JSON.stringify($color_schemes.saved[savedColorScheme]));
-	console.log(newScheme);
-    newScheme['parameters']['parameter_config']['types'].forEach(parameterKey => {
-		let paramInputs = Object.keys(newScheme['parameters'][parameterKey])
-		paramInputs.forEach(thisInput => {
-			let finalParams = Object.keys(newScheme['parameters'][parameterKey][thisInput]);
-			finalParams.forEach(thisParam => {
-				$color_parameters[parameterKey][thisInput][thisParam] = JSON.parse(JSON.stringify(newScheme['parameters'][parameterKey][thisInput][thisParam]));
-			});
-		});
-    
-    });
-	$color_parameters['parameter_config'] = JSON.parse(JSON.stringify(newScheme['parameters']['parameter_config']));
-    updateColorPalette();
-	refreshGui();
-	updateGui();
-	choseOrSavedColorScheme();
-
-}
-
-const saveCurrentColorScheme = (colorSchemeName) => {
-
-    let oldSchemes = JSON.parse(localStorage.getItem('color_schemes'));
-    let oldSchemeNames = Object.keys(oldSchemes);
-    if (oldSchemeNames.includes(colorSchemeName)) {
-        $showAlert({'type': 'error','msg': "Cannot save color scheme, name already exists!"});
-        return;
-    }
-    let newColorScheme = new ColorScheme({
-                                    'name': colorSchemeName, 
-                                    'palette': $colors.palette,
-                                    'parameters': $color_parameters
-                                    });
-    oldSchemes[colorSchemeName] = newColorScheme;
-    localStorage.setItem('color_schemes', JSON.stringify(oldSchemes));
-    $color_schemes.saved[colorSchemeName] = newColorScheme;
-
-	$colors.color_scheme_options.push({'name': colorSchemeName, 'value': colorSchemeName});
-
-	updateGui();
-    $showAlert({'type': 'success','msg': "Saved Color Scheme!"});
-}
-
-
-
-const colorParameterUpdate = (paramObj) => {
-// three different types of parameter updates for main colors, divisors, and all other parameters.
-	let mainColors = ['color1','color2'];
-	let themeOptions =  ['light','dark'];
-	if (mainColors.includes(paramObj['id'])) {
-		// main color update
-		// take updated rgb value, update hsl, then update all downstream colors
-		mainColors.forEach(thisColor => {
-			//let rgbArray = [(parseInt($color_parameters.main_colors[thisColor].rgb_norm['r']*255)),(parseInt($color_parameters.main_colors[thisColor].rgb_norm['g']*255)),(parseInt($color_parameters.main_colors[thisColor].rgb_norm['b']*255))]			
-			// convert hex to rgb temp
-			let rgbObj = hexTorgb($color_parameters.main_colors[thisColor].hex);
-			let rgbArray = [Math.round(rgbObj.r*(255)),Math.round(rgbObj.g*(255)),Math.round(rgbObj.b*(255))];
-			$color_parameters.main_colors[thisColor].rgb = rgbArray;
-			// temp commented 
-			// let rgbArray = $color_parameters.main_colors[thisColor].rgb;
-			let hslArray = rgbToHsl(rgbArray[0],rgbArray[1], rgbArray[2]);
-			$color_parameters.main_colors[thisColor].hsl = [Math.round(hslArray[0]*360),Math.round(hslArray[1]*100),Math.round(hslArray[2]*100)];
-			$colors.palette.light[thisColor].hsl = [Math.round(hslArray[0]*360),Math.round(hslArray[1]*100),Math.round(hslArray[2]*100)];
-			$colors.palette.dark[thisColor].hsl = [Math.round(hslArray[0]*360),Math.round((hslArray[1]*100)/$color_parameters.dark.divisors.saturation_divisor),Math.round((hslArray[2]*100)/$color_parameters.dark.divisors.lightness_divisor) ]
-		})
-		let colorParams = Object.keys($color_parameters.light);
-		colorParams.forEach(thisParam => {
-			themeOptions.forEach(thisTheme => {
-				let paramObj = $color_parameters[thisTheme][thisParam];
-				let thisHue = $color_parameters.main_colors[paramObj['hue']].hsl[0];
-				let thisSaturation = paramObj['saturation'];
-				let thisLightness = paramObj['lightness'];
-				let rgbArray = hslToRgb(thisHue/360, thisSaturation/100, thisLightness/100)
-				$colors.palette[paramObj.theme][paramObj['id']].rgb = rgbArray; 
-			});
-
-		});
-
-	}
-	else if (paramObj['id']!='divisors') {
-		// all other parameters
-		let thisHue = $color_parameters.main_colors[paramObj['hue']].hsl[0];
-		let thisSaturation = paramObj['saturation'];
-		let thisLightness = paramObj['lightness'];
-		let rgbArray = hslToRgb(thisHue/360, thisSaturation/100, thisLightness/100)
-		$colors.palette[paramObj.theme][paramObj['id']].rgb = rgbArray; 
-	}
-	else {
-				// (dark) divisors update -> 
-		let mainColors = ['color1','color2'];
-		mainColors.forEach(thisColor => {
-			let thisHue = $color_parameters.main_colors[thisColor].hsl[0];
-			let thisSaturation = $color_parameters.main_colors[thisColor].hsl[1];
-			let thisLightness = $color_parameters.main_colors[thisColor].hsl[2];
-
-			let newSaturation = thisSaturation/paramObj['saturation_divisor'];
-			let newLightness = thisLightness/paramObj['lightness_divisor'];
-			let rgbArray = hslToRgb(thisHue/360, newSaturation/100, newLightness/100);
-
-			$colors.palette[paramObj.theme][thisColor].rgb = rgbArray;
-
-			$colors.palette[paramObj.theme][thisColor].hsl = [thisHue, newSaturation, newLightness]; 
-		})
-
-	}
-	editedColorScheme();
-	$onColorChange();
-};
-
-const updateColorPalette = () => {
-	// color paramers -> colors.light_palette, colors.dark_palette
-	let mainColors = ['color1','color2'];
-	let themeOptions = ['light','dark']
-		// main color update
-		// take hsl of color parameter, update rgb, then update all downstream colors
-	mainColors.forEach(thisColor => {
-
-		let hslArray = JSON.parse(JSON.stringify( $color_parameters.main_colors[thisColor].hsl))
-		let rgbArray = hslToRgb(hslArray[0]/360, hslArray[1]/100, hslArray[2]/100);
-		$color_parameters.main_colors[thisColor].rgb = rgbArray;
-		$colors.palette.light[thisColor].rgb = rgbArray;				
-		$colors.palette.light[thisColor].hsl = hslArray;
-		let darkHSLArray = [hslArray[0],(hslArray[1])/$color_parameters.dark.divisors.saturation_divisor,(hslArray[2])/$color_parameters.dark.divisors.lightness_divisor ]
-		$colors.palette.dark[thisColor].hsl = darkHSLArray;
-		let darkRGBArray = hslToRgb(darkHSLArray[0]/360, darkHSLArray[1]/100, darkHSLArray[2]/100);
-		$colors.palette.dark[thisColor].rgb = darkRGBArray;
-		
-	});
-	let colorParams = Object.keys($color_parameters.light);
-	colorParams.forEach(thisParam => {
-		themeOptions.forEach(thisTheme => {
-			let paramObj = $color_parameters[thisTheme][thisParam];
-			let thisHue = $color_parameters.main_colors[paramObj['hue']].hsl[0];
-			let thisSaturation = paramObj['saturation'];
-			let thisLightness = paramObj['lightness'];
-			let rgbArray = hslToRgb(thisHue/360, thisSaturation/100, thisLightness/100)
-			$colors.palette[paramObj.theme][paramObj['id']].rgb = rgbArray; 
-
-		});
-
-	});
-}
-
-
-
-
-$: cssVarStyles =
-`--main-hue:${$color_parameters.main_colors.color1.hsl[0]};
---main-sat:${$color_parameters.main_colors.color1.hsl[1]}%;
---main-light:${$color_parameters.main_colors.color1.hsl[2]}%;
---accent-hue:${$color_parameters.main_colors.color2.hsl[0]};
---accent-sat:${$color_parameters.main_colors.color2.hsl[1]}%;
---accent-light:${$color_parameters.main_colors.color2.hsl[2]}%;
-
---text1-sat:${$color_parameters.light.text1.saturation}%;
---text1-light:${$color_parameters.light.text1.lightness}%;
---text2-sat:${$color_parameters.light.text2.saturation}%;
---text2-light:${$color_parameters.light.text2.lightness}%;
---text3-sat:${$color_parameters.light.text3.saturation}%;
---text3-light:${$color_parameters.light.text3.lightness}%;
---surface1-sat:${$color_parameters.light.surface1.saturation}%;
---surface1-light:${$color_parameters.light.surface1.lightness}%;
---surface2-sat:${$color_parameters.light.surface2.saturation}%;
---surface2-light:${$color_parameters.light.surface2.lightness}%;
-
---surface3-sat:${$color_parameters.light.surface3.saturation}%;
---surface3-light:${$color_parameters.light.surface3.lightness}%;
---surface4-sat:${$color_parameters.light.surface4.saturation}%;
---surface4-light:${$color_parameters.light.surface4.lightness}%;
---text1-sat-dark:${$color_parameters.dark.text1.saturation}%;
---text1-light-dark:${$color_parameters.dark.text1.lightness}%;
---text2-sat-dark:${$color_parameters.dark.text2.saturation}%;
---text2-light-dark:${$color_parameters.dark.text2.lightness}%;
---text3-sat-dark:${$color_parameters.dark.text3.saturation}%;
---text3-light-dark:${$color_parameters.dark.text3.lightness}%;
---surface1-sat-dark:${$color_parameters.dark.surface1.saturation}%;
---surface1-light-dark:${$color_parameters.dark.surface1.lightness}%;
---surface2-sat-dark:${$color_parameters.dark.surface2.saturation}%;
---surface2-light-dark:${$color_parameters.dark.surface2.lightness}%;
---surface3-sat-dark:${$color_parameters.dark.surface3.saturation}%;
---surface3-light-dark:${$color_parameters.dark.surface3.lightness}%;
---surface4-sat-dark:${$color_parameters.dark.surface4.saturation}%;
---surface4-light-dark:${$color_parameters.dark.surface4.lightness}%;
---dark-sat-divisor:${$color_parameters.dark.divisors.saturation_divisor};
---dark-light-divisor:${$color_parameters.dark.divisors.lightness_divisor};
---main-dark-sat:${$colors.palette.dark.color1.hsl[1]}%;
---main-dark-light:${$colors.palette.dark.color1.hsl[2]}%;
---accent-dark-sat:${$colors.palette.dark.color2.hsl[1]}%;
---accent-dark-light:${$colors.palette.dark.color2.hsl[2]}%;
-
---default-main-hue:${$color_parameters.main_colors.color1.hsl[0]};
---default-main-sat:${$color_parameters.main_colors.color1.hsl[1]}%;
---default-main-light:${$color_parameters.main_colors.color1.hsl[2]}%;
---default-accent-hue:${$color_parameters.main_colors.color2.hsl[0]};
---default-accent-sat:${$color_parameters.main_colors.color2.hsl[1]}%;
---default-accent-light:${$color_parameters.main_colors.color2.hsl[2]}%;
---default-surface-sat:${$color_parameters.light.surface1.saturation}%;
---default-surface-light:${$color_parameters.light.surface1.lightness}%;
---default-dark-surface-sat:${$color_parameters.dark.surface1.saturation}%;
---default-dark-surface-light:${$color_parameters.dark.surface1.lightness}%;
---default-dark-sat:${$colors.dark_palette.color1.hsl[1]}%;
---default-dark-light:${$colors.dark_palette.color1.hsl[2]}%;
---default-dark-accent-sat:${$colors.dark_palette.color2.hsl[1]}%;
---default-dark-accent-light:${$colors.dark_palette.color2.hsl[2]}%;
---default-text-sat:${$color_parameters.light.text1.saturation}%;
---default-text-light:${$color_parameters.light.text1.lightness}%;
---default-dark-text-sat:${$color_parameters.dark.text1.saturation}%;
---default-dark-text-light:${$color_parameters.dark.text1.lightness}%;`;
-
-
-
-
 </script>
 <style>
 	.navShape {

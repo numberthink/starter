@@ -12,8 +12,7 @@
 </script>
 
 <script>
-	import {themes} from '../stores/settings.js';
-	import {colors} from '../stores/layout.js';
+	// imports here
 </script>
 
 <svelte:head>

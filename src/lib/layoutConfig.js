@@ -3,8 +3,7 @@ import {REPO_URL} from './siteConfig.js';
 export const menuLayout = {'options': [
 
         {'name': 'Home','type': 'route','href': '/'},
-        {'name': 'About', 'type': 'route','href': '/about'},
-        {'name': 'Three', 'type': 'route','href': '/threesandbox'}
+        {'name': 'About', 'type': 'route','href': '/about'}
     
 ]};
 
