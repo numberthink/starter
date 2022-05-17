@@ -2,10 +2,8 @@
 	import MobileMenu from './MobileMenu.svelte';
 	import { REPO_URL } from '$lib/siteConfig';
 	import NavLink from './NavLink.svelte';
-
 	import {colors} from '../stores/layout.js';
 	import { menuLayout } from '$lib/layoutConfig';
-	import {onColorChange} from '../stores/functions.js';
 	let isDark = false;
 	if (typeof localStorage !== 'undefined') {
 		if (
@@ -14,7 +12,7 @@
 		) {
 			isDark = true;
 
-			$colors.current_mode = 'dark';
+			$colors.currentMode = 'dark';
 		}
 	}
 	function toggleDarkMode() {
@@ -23,39 +21,22 @@
 			localStorage.theme = 'light';
 			isDark = false;
 
-			$colors.current_mode = 'light';
+			$colors.currentMode = 'light';
 		} else {
 			document.documentElement.classList.add('dark');
 			localStorage.theme = 'dark';
 			isDark = true;
-			$colors.current_mode = 'dark';
+			$colors.currentMode = 'dark';
 		}
-		$onColorChange();
 
 	}
 </script>
-<!-- text-gray-900 dark:border-gray-700 dark:bg-gray-900
-	dark:text-gray-100 -->
-	<!-- {#each footerLayout.columns as footerColumn}
-	<div class="flex flex-col space-y-4">
-		{#each footerColumn as footerRow}
-		{#if footerRow.type == 'route'}
-		<a class="text2-light transition hover:text1-light dark:text2-dark dark:hover:text1-dark" href={footerRow.href}>{footerRow.name}</a>
-		{:else if footerRow.type == 'link'}
-		<a
-		class="text2-light transition hover:text1-light dark:text2-dark dark:hover:text1-dark"
-		target="_blank"
-		rel="noopener noreferrer"
-		href={footerRow.href}>{footerRow.name}</a>
-		{/if}
-		{/each}
-	</div>
-	{/each} -->
+
 <nav
 	class="relative mx-auto flex w-full max-w-2xl items-center justify-between
-	 bg-opacity-60 py-8 text1-color border-color-1  sm:pb-16"
+	 bg-opacity-60 py-8 color-1-text-1 color-1-border-1"
 >
-	<!-- <a href="#skip" class="skip-nav">Skip to content</a> -->
+
 	<MobileMenu />
 	<ul class="ml-[-0.60rem] flex">
 		{#each menuLayout.options as menuOption}
@@ -65,11 +46,12 @@
 		{/each}
 
 	</ul>
-	<div class="relative z-10 flex items-center space-x-4">
+
+	<div class="relative flex items-center space-x-4">
 		<button
 			aria-label="Toggle Dark Mode"
 			class="ml-1 flex h-9 w-9 items-center justify-center rounded-lg
-			transition-all hover:ring-2 surface4-color ring-color-accent-3"
+			transition-all hover:ring-2 color-2-surface-1 color-2-ring-1"
 			on:click={toggleDarkMode}
 		>
 			{#if isDark}
@@ -78,7 +60,7 @@
 					viewBox="0 0 24 24"
 					fill="none"
 					stroke="currentColor"
-					class="h-5 w-5 text1-color"
+					class="h-5 w-5 color-1-text-1"
 				>
 					<path
 						stroke-linecap="round"
@@ -94,7 +76,7 @@
 					viewBox="0 0 24 24"
 					fill="none"
 					stroke="currentColor"
-					class="w-5 h-5 text1-light dark:text1-dark"
+					class="w-5 h-5 color-1-text-1"
 				>
 					<path
 						stroke-linecap="round"
@@ -108,15 +90,3 @@
 	</div>
 </nav>
 
-<style>
-	.skip-nav {
-		position: absolute;
-		left: -25%;
-		top: -2rem;
-		--tw-translate-y: -3rem;
-		padding: 0.75rem 1rem;
-		transition-property: transform;
-		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-		transition-duration: 0.2s;
-	}
-</style>

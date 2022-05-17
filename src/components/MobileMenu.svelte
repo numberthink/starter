@@ -3,68 +3,118 @@
 	let menuOpening = false;
 	let menuOpen = false;
 	let menuClosing = false;
+	let menuFadingIn = false;
 	let menuOpenTime;
 	let burgerHovering;
 	let endBurgerHovering;
-	let menuTest = true;
 
-let menuAnimations = {
-	burger_slide_out: {duration: .5},
-	burger_slide_back: {duration: .3},
-	burger_to_x: {duration: 1},
-	burger_fade: {duration: .5},
-	x_to_full: {duration: .2},
-	menu_slide_in: {duration: 1},
-	menu_slide_out: {duration: .5}
+let menuConfig = {
+	burgerHoverSlide: true,
+	burgerToXAnimation: true,
+	xHoverScale: true,
+	menuAnimation: true,
+	menuItemsOpacityAnimation: true,
+	animationSettings: {
+		burgerSlideOut: {duration: .4},
+		burgerSlideBack: {duration: .3},
+		burgerToX: {duration: .5},
+		burgerFade: {duration: .5},
+		xToFull: {duration: .2},
+		xHoverScale: {duration: .2, scale: 1.25},
+		menuSlideIn: {duration: .5},
+		menuSlideOut: {duration: .3},
+		menuFadeIn: {delay: .05, duration: .5, offsetDelay: .1}
+	}
+
+}
+// tranform animation settings based on config
+if (!menuConfig.menuItemsOpacityAnimation) {
+	menuConfig.animationSettings.menuFadeIn = {delay: 0, duration: 0, offsetDelay: 0}
+}
+if (!menuConfig.menuAnimation) {
+	menuConfig.animationSettings.menuSlideIn.duration = 0;
+	menuConfig.animationSettings.menuSlideOut.duration = 0;
+}
+if (!menuConfig.burgerToXAnimation) {
+	menuConfig.animationSettings.burgerToX.duration = 0;
+	menuConfig.animationSettings.xToFull.duration = 0;
+	menuConfig.animationSettings.burgerFade.duration = 0;
+}
+if (!menuConfig.xHoverScale) {
+	menuConfig.animationSettings.xHoverScale.scale = 1;
 }
 
+
+$: cssVarStyles =  `
+--burger-to-x-dur:${menuConfig.animationSettings.burgerToX.duration}s;
+--burger-slide-out-dur:${menuConfig.animationSettings.burgerSlideOut.duration}s;
+--burger-slide-back-dur:${menuConfig.animationSettings.burgerSlideBack.duration}s;
+--burger-fade-dur:${menuConfig.animationSettings.burgerFade.duration}s;
+--x-to-full-dur:${menuConfig.animationSettings.xToFull.duration}s;
+--x-hover-scale-dur:${menuConfig.animationSettings.xHoverScale.duration}s;
+--menu-slide-in-dur:${menuConfig.animationSettings.menuSlideIn.duration}s;
+--menu-slide-out-dur:${menuConfig.animationSettings.menuSlideOut.duration}s;
+--menu-fade-in-dur:${menuConfig.animationSettings.menuFadeIn.duration}s;
+--x-hover-scale:${menuConfig.animationSettings.xHoverScale.scale};
+`
+
+
 const startBurgerHover = () => {
-	if (menuClosing || menuOpening) {
+	if (menuClosing || menuOpening || !menuConfig.burgerHoverSlide) {
 		return;
 	}
 	burgerHovering=true;
 	endBurgerHovering = false;
 }
 const endBurgerHover = () => {
-	if (menuClosing || menuOpening) {
+	if (menuClosing || menuOpening || !menuConfig.burgerHoverSlide) {
 		return;
 	}
 	burgerHovering=false;
 	endBurgerHovering = true;
 }
 const burgerClick = () => {
+
 	if (menuOpen) {
 		menuOpen = !menuOpen;
 		menuOpening = false
 		menuClosing = true;
-		setTimeout(() => (menuClosing = false), menuAnimations.menu_slide_out.duration*1000);
-		endBurgerHovering = true;
+		setTimeout(() => (menuClosing = false), menuConfig.animationSettings.menuSlideOut.duration*1000);
+
 		burgerHovering=false;
+		if (menuConfig.burgerHoverSlide) {
+			endBurgerHovering = true;
+		}
+		menuFadingIn = false;
 	}
 	else if (menuOpening) {
 		clearTimeout(menuOpenTime);
 		menuClosing = true;
-		setTimeout(() => (menuClosing = false),menuAnimations.menu_slide_out.duration*1000);
-		endBurgerHovering = true;
+		setTimeout(() => (menuClosing = false),menuConfig.animationSettings.menuSlideOut.duration*1000);
+		if (menuConfig.burgerHoverSlide) {
+			endBurgerHovering = true;
+		}
 		burgerHovering=false;
 		menuOpening = false;	
+		menuFadingIn = false;
 	}
 	else {
 		menuOpening = true;
-		menuOpenTime = setTimeout(() => (menuOpen = true), 1000);
+		menuOpenTime = setTimeout(() => (menuOpen = true), menuConfig.animationSettings.burgerToX.duration*1000);
 		menuClosing = false;
 		endBurgerHovering = false;
 		burgerHovering=false;
+		setTimeout(() => (menuFadingIn = true), menuConfig.animationSettings.menuFadeIn.delay*1000)
 
 	}
 
 }
 </script>
 
-<div class="md:hidden">
+<div class="md:hidden ml-[.75rem]" style="{cssVarStyles}">
 
 	<button
-		class="relative z-20 flex items-center justify-center"
+		class="relative z-10 flex items-center justify-center"
 		aria-label="Toggle menu"
 		type="button"
 		
@@ -73,7 +123,7 @@ const burgerClick = () => {
 	>
 
 			<svg
-				class="absolute h-5 w-5 text-gray-900 dark:text-gray-100"
+				class="absolute h-5 w-5 color-1-text-2"
 				width="20"
 				height="20"
 				viewBox="0 0 20 20"
@@ -89,7 +139,7 @@ const burgerClick = () => {
 				</svg
 			>
 			<svg
-				class="absolute h-5 w-5 text-gray-900 dark:text-gray-100"
+				class="absolute h-5 w-5 color-1-text-2"
 				width="20"
 				height="20"
 				viewBox="0 0 20 20"
@@ -107,7 +157,7 @@ const burgerClick = () => {
 				/>
 				</svg
 			><svg
-			class="absolute h-5 w-5 text-gray-900 dark:text-gray-100"
+			class="absolute h-5 w-5 color-1-text-2"
 			width="20"
 			height="20"
 			viewBox="0 0 20 20"
@@ -129,21 +179,36 @@ const burgerClick = () => {
 		
 	</button>
 	
-	{#if menuOpening || menuClosing}
-		<div id="blocker" class="menuBlocker absolute inset-0 min-h-screen min-w-full" on:click={burgerClick}>
+	{#if menuOpening || menuClosing || menuOpen}
+		
+		<div id="blocker" class="menuBlocker absolute left-[-1rem] top-0
+		min-h-screen w-screen" 
+		on:click={burgerClick}
+		class:blockerFading={menuClosing}
+		>
 
 		</div>
+		
 		<ul
-			class="rounded-md w-full px-4 pb-4 sm:max-w-xl absolute flex flex-col text-2xl surface2-color"
-			class:menuActive={menuOpening}
+			class="menu ml-[-1rem] mt-[-1.25rem] rounded-md w-full px-4 pb-6 pt-8
+			absolute flex flex-col text-2xl color-1-surface-2 shadow-sm"
+
+			class:menuActive={menuOpening || menuOpen}
 			class:menuInactive={menuClosing}
+
 		>
 		{#each menuLayout.options as menuOption}
-		<li class="border-b border-gray-300 font-semibold text-gray-900 dark:border-gray-700 dark:text-gray-100">
+		<li class="border-b color-1-border-1 font-semibold 
+		color-1-text-2 px-1"
+		
+		>
 			<a
-			class="flex w-auto py-2"
+			class="menuItems flex w-auto py-2"
+			style="transition-delay: {menuOption.index*menuConfig.animationSettings.menuFadeIn.offsetDelay}s;"
+			class:menuItemsActive={menuFadingIn}
 			sveltekit:prefetch
 			on:click={burgerClick}
+			
 			href={menuOption.href}>{menuOption.name}</a
 		>
 			
@@ -151,7 +216,7 @@ const burgerClick = () => {
 		{/each}
 		</ul>
 		<button
-		class="relative z-20 flex items-center justify-center text2-color hover:text1-color opacity-100 scale-0"
+		class="relative z-10 flex items-center justify-center color-1-text-2 hover:color-1-text-1 opacity-100 scale-0"
 		aria-label="Toggle menu"
 		type="button"
 		class:xBurgerAfterAnimate={menuOpen}
@@ -171,59 +236,80 @@ const burgerClick = () => {
 				data-hide="true"><path d="M17.5 2.5L2.5 17.5" /><path d="M2.5 2.5l15 15" /></svg
 			>
 			</button>
-	<!-- </div> -->
+	
 	{/if}
 </div>
 
 <style lang="postcss">
 	
 	.xBurgerFade {
-		transition: opacity 500ms ease;
+		transition: opacity var(--burger-fade-dur) ease;
 		opacity: 0;
 	}
 	.xBurgerAnimate1 {
-		animation: burger-to-x-1 1s ease-in;
+		animation: burger-to-x-1 var(--burger-to-x-dur) ease-out;
 		transform: translateX(10%) translateY(25%) rotate(-45deg);
 	}
 	.xBurgerAnimate2 {
-		animation: burger-to-x-2 1s ease-in;
+		animation: burger-to-x-2 var(--burger-to-x-dur)  ease-out;
 		transform: translateX(10%) translateY(-25%) rotate(45deg);
 	}
 	.xBurgerAfterAnimate {
-		animation: burger-x-grow .2s linear;
+		animation: burger-x-grow var(--x-to-full-dur) ease-out;
 		transform: scale(1);
 		opacity: 1;
 	}
 	.xBurgerAfterAnimate:hover {
-		transition: transform 200ms ease;
-		transform: scale(1.25);
+		transition: transform var(--x-hover-scale-dur) ease;
+		transform: scale(var(--x-hover-scale));
 	}
 	.burgerAnimate {
-      animation: burger-shift .5s ease-out;
+      animation: burger-shift var(--burger-slide-out-dur) ease-out;
       transform: translateX(30%);
-	  /* transform: translate(-50%, -50%) scale(1); */
 
 	}
 	.endBurgerAnimate {
-      animation: burger-shift-back .3s ease-out;
+      animation: burger-shift-back var(--burger-slide-back-dur) ease-out;
       transform: translateX(0%);
 	  /* transform: translate(-50%, -50%) scale(1); */
 
 	}
+	.menu {
+		opacity: 0;
+		z-index: 1;
+	}
 	.menuInactive {
 		transform: translateX(-100%);
 		opacity: 0;
-		animation: menu-slide-reverse .5s ease-out;
-		z-index: 12;
+		transition: opacity var(--menu-slide-out-dur) ease, transform var(--menu-slide-out-dur) ease;
+
 	
 	}
 	.menuActive {
 		transform: translateX(0%);
-		animation: menu-slide .5s ease-out;
-		z-index: 12;
+		opacity: 1;
+		transition: opacity var(--menu-slide-in-dur) ease;
+
+
+		
 	}
 	.menuBlocker {
-		z-index: 11;
+		z-index: 1;
+		background-color: hsla(0, 0%, 100%, 0.063);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+	}
+	.blockerFading {
+		transition: opacity var(--menu-slide-out-dur) ease;
+		opacity: 0;
+	}
+	.menuItems {
+		opacity: 0;
+		transition: opacity var(--menu-fade-in-dur) ease;
+
+	}
+	.menuItemsActive {
+		opacity: 1;
 	}
 
 	
@@ -282,7 +368,7 @@ const burgerClick = () => {
 			transform: scale(0.8);
 		}
 		100% {
-			transform: scale(1.0);
+			transform: scale(1);
 		}
 	}
 </style>

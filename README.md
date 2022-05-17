@@ -1,4 +1,4 @@
-### A Small Toolkit for building websites
+### A small toolkit for building websites
 
 NumberThink Starter is a toolkit for quickly designing, prototyping, and deploying a Website. You likely need some familiarity with Javascript, CSS, and HTML to fully customize it to your liking, but anyone with a computer can start using it by cloning or downloading the source code of this project. 
 

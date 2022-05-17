@@ -17,8 +17,7 @@ const mdsvexConfig = {
 		[
 			remarkGithub,
 			{
-				// Use your own repository
-				repository: 'https://github.com/mvasigh/sveltekit-mdsvex-blog.git'
+				repository: 'https://github.com/numberthink/starter.git'
 			}
 		],
 		remarkAbbr
@@ -45,9 +44,6 @@ const config = {
 	],
 
 	kit: {
-		// adapter: adapter({
-		// 	split: false
-		// })
 		adapter: node({ out: 'build-node' }),
 
 	}

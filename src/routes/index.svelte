@@ -12,7 +12,16 @@
 </script>
 
 <script>
-	// imports here
+
+const contentConfig = {
+    siteTitlePrefix: 'This is',
+    siteTitleSuffix: '!',
+    siteSubtitle: 'A starter kit for ',
+    siteSubtitleBold: 'SvelteKit + Tailwind + ThreeJS.',
+	repoSourceLink: true,
+	repoSourceLinkText: 'View source here!'
+}
+
 </script>
 
 <svelte:head>
@@ -32,28 +41,34 @@
 </svelte:head>
 
 <div
-	class="mx-auto min-h-screen max-w-2xl border-color-1 px-4 pb-16 pt-4 sm:px-8 surface1-color"
+	class="mx-auto min-h-screen max-w-2xl border-color-1 px-4 pb-16
+	 pt-4 sm:px-8 color-1-surface-1"
 >
 	<div class="flex flex-col-reverse items-start sm:flex-row">
 		<div class="flex flex-col pr-8">
-			<h1 class="relative z-10 mb-3 text-3xl font-bold tracking-tight text3-color md:text-5xl">
-				This is
-
-				<span
-					class="relative opacity-80 ml-2 inline-block before:absolute before:-inset-1 before:block before:-skew-y-2 before:surface3-color"
-				>
-					<span class="relative skew-y-2 text2-color">{SITE_TITLE}</span>
-				</span>
-				!
+			<h1 class="relative mb-3 mr-16 text-3xl
+			 sm:text-4xl font-bold tracking-tight color-1-text-2
+			  md:text-5xl">
+				{contentConfig.siteTitlePrefix}<br/>
+				<strong>
+					<span class="relative inline-block before:absolute before:-inset-1 before:block before:-skew-y-2 before:bg-blue-400 before:shadow-lg before:rounded-sm">
+						
+						<span class="relative skew-y-2">{SITE_TITLE}{contentConfig.siteTitleSuffix}</span>
+					</span>
+					
+				</strong>
 			</h1>
 
-			<h2 class="relative z-10 mb-1 mt-4 text1-color text-lg">
-				A starter kit for <span class="font-semibold"
-					>SvelteKit + Tailwind + ThreeJS.</span
-				>
+			<h2 class="relative mb-1 mt-4 color-1-text-1 text-lg ">
+				{contentConfig.siteSubtitle} 
+				{#if contentConfig?.siteSubtitleBold && contentConfig.siteSubtitleBold.length>0}
+				<span class="font-semibold">{contentConfig.siteSubtitleBold}</span>
+				{/if}
 			</h2>
 
-			<p class="relative z-10 mt-2 text-base text2-color hover:text1-color">
+			{#if contentConfig?.repoSourceLink}
+			<p class="relative mt-2 text-base color-1-text-2 
+			hover:color-1-text-1">
 
 				<a
 				class="flex items-center rounded-lg"
@@ -75,9 +90,10 @@
 						clip-rule="evenodd"
 					/>
 				</svg>
-				<span>View source here!</span>
+				<span>{contentConfig.repoSourceLinkText}</span>
 			</a>
 			</p>
+			{/if}
 		</div>
 	</div>
 
