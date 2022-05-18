@@ -335,8 +335,13 @@ h5 a,
 h6 a {
 	/* margin-left: 1rem; */
 	text-decoration: none !important;
-	@apply color-1-text-2;
+	
 }
 strong {
 	font-weight: bold;
+}
+
+.prose-font-1 {
+	font-size: 1rem;
+	line-height: 1.75;
 }

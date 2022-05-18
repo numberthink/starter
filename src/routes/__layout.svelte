@@ -1,6 +1,5 @@
 <script context="module">
-	import { REPO_URL, SITE_TITLE } from '$lib/siteConfig';
-	import {footerLayout} from '$lib/layoutConfig';
+	import {footerLayout} from '../lib/layoutConfig.js';
 </script>
 
 <script>
@@ -9,18 +8,24 @@
 	import Nav from '../components/Nav.svelte';
 
 
-/** @type {import('@sveltejs/kit').onMount} */
+
 onMount(async () => {
 
 
 });
+
+/** @type {Date} */
+let newDate;
+
+
+
 
 
 
 </script>
 
 
-<div id="mainContentWrapper">
+<div id="mainContentWrapper" class="color-1-surface-1">
 <div id="topFold" class="relative color-1-surface-1 min-h-screen min-w-full">
 
 <div class=" z-10 flex flex-col justify-center px-4 sm:px-8">
@@ -35,7 +40,7 @@ onMount(async () => {
 
 
 </div>
-<div id="footerWrapper" class="relative -my-2 min-w-full color-1-surface-1">
+<div id="footerWrapper" class="relative min-w-full color-1-surface-1 mt-12">
 <footer class="relative z-10 max-w-2xl flex flex-col items-center justify-center mx-auto">
 	<hr class="border-1 mb-8 w-full color-1-border-1" />
 	<div class="grid w-full grid-cols-1 gap-4 px-4 pb-16 sm:grid-cols-2 sm:px-8 text-center">
@@ -58,7 +63,5 @@ onMount(async () => {
 	</div>
 </footer>
 </div>
-
-
 </div>
 

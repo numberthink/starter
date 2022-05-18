@@ -15,3 +15,5 @@ export type testItem = {
 		name: string;
 	}[];
 };
+
+// use e.g. /** @type {import('$lib/types').testItem} */

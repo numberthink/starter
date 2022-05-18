@@ -33,8 +33,8 @@
 </script>
 
 <nav
-	class="relative mx-auto flex w-full max-w-2xl items-center justify-between
-	 bg-opacity-60 py-8 color-1-text-1 color-1-border-1"
+	class="relative mx-auto flex w-full max-w-4xl items-center justify-between
+	 bg-opacity-60 py-8 color-1-text-1 color-1-border-1 md:px-6"
 >
 
 	<MobileMenu />

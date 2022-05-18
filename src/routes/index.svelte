@@ -6,7 +6,7 @@
 		SITE_DESCRIPTION,
 		DEFAULT_OG_IMAGE,
 		MY_TWITTER_HANDLE
-	} from '$lib/siteConfig';
+	} from '../lib/siteConfig.js';
 	
 	export const prerender = true; 
 </script>
@@ -51,7 +51,7 @@ const contentConfig = {
 			  md:text-5xl">
 				{contentConfig.siteTitlePrefix}<br/>
 				<strong>
-					<span class="relative inline-block before:absolute before:-inset-1 before:block before:-skew-y-2 before:bg-blue-400 before:shadow-lg before:rounded-sm">
+					<span class="relative inline-block before:absolute before:-inset-1 before:block before:-skew-y-2 before:color-1-surface-3 before:rounded-sm">
 						
 						<span class="relative skew-y-2">{SITE_TITLE}{contentConfig.siteTitleSuffix}</span>
 					</span>
