@@ -44,7 +44,7 @@ Before deploying, remember to configure `/lib/siteConfig.js`!
 
 ## Acknowledgements
 
-- Inspired by and based off of swyx-kit: https://github.com/sw-yx/swyxkit (Thank you!)
+- Inspired by and based off of swyx-kit: https://github.com/sw-yx/swyxkit
 - MDSvex from Pngwn: https://mdsvex.pngwn.io/docs#layout
 - This awesome color scheme article from Adam Argyle: https://web.dev/building-a-color-scheme/
 - Find more sveltekit projects here: https://github.com/janosh/awesome-svelte-kit

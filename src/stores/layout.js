@@ -1,24 +1,1512 @@
 import { writable, derived } from 'svelte/store';
 
+/** @name {colorParametersStore}
+	@start {colorParametersStore} */
+export const colorParameters = writable({
+	mainColors: { color1: { hsl: [150, 0, 100] }, color2: { hsl: [50, 0, 100] } },
+	light: {
+		color1: {
+			hsl: [150, 0, 100],
+			derived: ['text1', 'text2', 'text3', 'surface1', 'surface2', 'surface3'],
+			text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 },
+			text2: {
+				hsl: {
+					hsl: [150, 0, 100],
+					derived: ['text1'],
+					text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 }
+				},
+				saturation: 0,
+				lightness: 0
+			},
+			text3: {
+				hsl: {
+					hsl: [150, 0, 100],
+					derived: ['text1', 'text2'],
+					text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 },
+					text2: {
+						hsl: {
+							hsl: [150, 0, 100],
+							derived: ['text1'],
+							text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 }
+						},
+						saturation: 0,
+						lightness: 0
+					}
+				},
+				saturation: 0,
+				lightness: 0
+			},
+			surface1: {
+				hsl: {
+					hsl: [150, 0, 100],
+					derived: ['text1', 'text2', 'text3'],
+					text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 },
+					text2: {
+						hsl: {
+							hsl: [150, 0, 100],
+							derived: ['text1'],
+							text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 }
+						},
+						saturation: 0,
+						lightness: 0
+					},
+					text3: {
+						hsl: {
+							hsl: [150, 0, 100],
+							derived: ['text1', 'text2'],
+							text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 },
+							text2: {
+								hsl: {
+									hsl: [150, 0, 100],
+									derived: ['text1'],
+									text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 }
+								},
+								saturation: 0,
+								lightness: 0
+							}
+						},
+						saturation: 0,
+						lightness: 0
+					}
+				},
+				saturation: 0,
+				lightness: 100
+			},
+			surface2: {
+				hsl: {
+					hsl: [150, 0, 100],
+					derived: ['text1', 'text2', 'text3', 'surface1'],
+					text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 },
+					text2: {
+						hsl: {
+							hsl: [150, 0, 100],
+							derived: ['text1'],
+							text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 }
+						},
+						saturation: 0,
+						lightness: 0
+					},
+					text3: {
+						hsl: {
+							hsl: [150, 0, 100],
+							derived: ['text1', 'text2'],
+							text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 },
+							text2: {
+								hsl: {
+									hsl: [150, 0, 100],
+									derived: ['text1'],
+									text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 }
+								},
+								saturation: 0,
+								lightness: 0
+							}
+						},
+						saturation: 0,
+						lightness: 0
+					},
+					surface1: {
+						hsl: {
+							hsl: [150, 0, 100],
+							derived: ['text1', 'text2', 'text3'],
+							text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 },
+							text2: {
+								hsl: {
+									hsl: [150, 0, 100],
+									derived: ['text1'],
+									text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 }
+								},
+								saturation: 0,
+								lightness: 0
+							},
+							text3: {
+								hsl: {
+									hsl: [150, 0, 100],
+									derived: ['text1', 'text2'],
+									text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 },
+									text2: {
+										hsl: {
+											hsl: [150, 0, 100],
+											derived: ['text1'],
+											text1: {
+												hsl: { hsl: [150, 0, 100], derived: [] },
+												saturation: 0,
+												lightness: 0
+											}
+										},
+										saturation: 0,
+										lightness: 0
+									}
+								},
+								saturation: 0,
+								lightness: 0
+							}
+						},
+						saturation: 0,
+						lightness: 100
+					}
+				},
+				saturation: 0,
+				lightness: 100
+			},
+			surface3: {
+				hsl: {
+					hsl: [150, 0, 100],
+					derived: ['text1', 'text2', 'text3', 'surface1', 'surface2'],
+					text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 },
+					text2: {
+						hsl: {
+							hsl: [150, 0, 100],
+							derived: ['text1'],
+							text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 }
+						},
+						saturation: 0,
+						lightness: 0
+					},
+					text3: {
+						hsl: {
+							hsl: [150, 0, 100],
+							derived: ['text1', 'text2'],
+							text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 },
+							text2: {
+								hsl: {
+									hsl: [150, 0, 100],
+									derived: ['text1'],
+									text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 }
+								},
+								saturation: 0,
+								lightness: 0
+							}
+						},
+						saturation: 0,
+						lightness: 0
+					},
+					surface1: {
+						hsl: {
+							hsl: [150, 0, 100],
+							derived: ['text1', 'text2', 'text3'],
+							text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 },
+							text2: {
+								hsl: {
+									hsl: [150, 0, 100],
+									derived: ['text1'],
+									text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 }
+								},
+								saturation: 0,
+								lightness: 0
+							},
+							text3: {
+								hsl: {
+									hsl: [150, 0, 100],
+									derived: ['text1', 'text2'],
+									text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 },
+									text2: {
+										hsl: {
+											hsl: [150, 0, 100],
+											derived: ['text1'],
+											text1: {
+												hsl: { hsl: [150, 0, 100], derived: [] },
+												saturation: 0,
+												lightness: 0
+											}
+										},
+										saturation: 0,
+										lightness: 0
+									}
+								},
+								saturation: 0,
+								lightness: 0
+							}
+						},
+						saturation: 0,
+						lightness: 100
+					},
+					surface2: {
+						hsl: {
+							hsl: [150, 0, 100],
+							derived: ['text1', 'text2', 'text3', 'surface1'],
+							text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 },
+							text2: {
+								hsl: {
+									hsl: [150, 0, 100],
+									derived: ['text1'],
+									text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 }
+								},
+								saturation: 0,
+								lightness: 0
+							},
+							text3: {
+								hsl: {
+									hsl: [150, 0, 100],
+									derived: ['text1', 'text2'],
+									text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 },
+									text2: {
+										hsl: {
+											hsl: [150, 0, 100],
+											derived: ['text1'],
+											text1: {
+												hsl: { hsl: [150, 0, 100], derived: [] },
+												saturation: 0,
+												lightness: 0
+											}
+										},
+										saturation: 0,
+										lightness: 0
+									}
+								},
+								saturation: 0,
+								lightness: 0
+							},
+							surface1: {
+								hsl: {
+									hsl: [150, 0, 100],
+									derived: ['text1', 'text2', 'text3'],
+									text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 },
+									text2: {
+										hsl: {
+											hsl: [150, 0, 100],
+											derived: ['text1'],
+											text1: {
+												hsl: { hsl: [150, 0, 100], derived: [] },
+												saturation: 0,
+												lightness: 0
+											}
+										},
+										saturation: 0,
+										lightness: 0
+									},
+									text3: {
+										hsl: {
+											hsl: [150, 0, 100],
+											derived: ['text1', 'text2'],
+											text1: {
+												hsl: { hsl: [150, 0, 100], derived: [] },
+												saturation: 0,
+												lightness: 0
+											},
+											text2: {
+												hsl: {
+													hsl: [150, 0, 100],
+													derived: ['text1'],
+													text1: {
+														hsl: { hsl: [150, 0, 100], derived: [] },
+														saturation: 0,
+														lightness: 0
+													}
+												},
+												saturation: 0,
+												lightness: 0
+											}
+										},
+										saturation: 0,
+										lightness: 0
+									}
+								},
+								saturation: 0,
+								lightness: 100
+							}
+						},
+						saturation: 0,
+						lightness: 100
+					}
+				},
+				saturation: 0,
+				lightness: 100
+			}
+		},
+		color2: {
+			hsl: [50, 0, 100],
+			derived: ['text1', 'surface1'],
+			text1: { hsl: { hsl: [50, 0, 100], derived: [] }, saturation: 0, lightness: 0 },
+			surface1: {
+				hsl: {
+					hsl: [50, 0, 100],
+					derived: ['text1'],
+					text1: { hsl: { hsl: [50, 0, 100], derived: [] }, saturation: 0, lightness: 0 }
+				},
+				saturation: 0,
+				lightness: 100
+			}
+		}
+	},
+	dark: {
+		color1: {
+			hsl: [150, 0, 100],
+			derived: ['text1', 'text2', 'text3', 'surface1', 'surface2', 'surface3'],
+			text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 },
+			text2: {
+				hsl: {
+					hsl: [150, 0, 100],
+					derived: ['text1'],
+					text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 }
+				},
+				saturation: 0,
+				lightness: 100
+			},
+			text3: {
+				hsl: {
+					hsl: [150, 0, 100],
+					derived: ['text1', 'text2'],
+					text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 },
+					text2: {
+						hsl: {
+							hsl: [150, 0, 100],
+							derived: ['text1'],
+							text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 }
+						},
+						saturation: 0,
+						lightness: 100
+					}
+				},
+				saturation: 0,
+				lightness: 100
+			},
+			surface1: {
+				hsl: {
+					hsl: [150, 0, 100],
+					derived: ['text1', 'text2', 'text3'],
+					text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 },
+					text2: {
+						hsl: {
+							hsl: [150, 0, 100],
+							derived: ['text1'],
+							text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 }
+						},
+						saturation: 0,
+						lightness: 100
+					},
+					text3: {
+						hsl: {
+							hsl: [150, 0, 100],
+							derived: ['text1', 'text2'],
+							text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 },
+							text2: {
+								hsl: {
+									hsl: [150, 0, 100],
+									derived: ['text1'],
+									text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 }
+								},
+								saturation: 0,
+								lightness: 100
+							}
+						},
+						saturation: 0,
+						lightness: 100
+					}
+				},
+				saturation: 0,
+				lightness: 0
+			},
+			surface2: {
+				hsl: {
+					hsl: [150, 0, 100],
+					derived: ['text1', 'text2', 'text3', 'surface1'],
+					text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 },
+					text2: {
+						hsl: {
+							hsl: [150, 0, 100],
+							derived: ['text1'],
+							text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 }
+						},
+						saturation: 0,
+						lightness: 100
+					},
+					text3: {
+						hsl: {
+							hsl: [150, 0, 100],
+							derived: ['text1', 'text2'],
+							text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 },
+							text2: {
+								hsl: {
+									hsl: [150, 0, 100],
+									derived: ['text1'],
+									text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 }
+								},
+								saturation: 0,
+								lightness: 100
+							}
+						},
+						saturation: 0,
+						lightness: 100
+					},
+					surface1: {
+						hsl: {
+							hsl: [150, 0, 100],
+							derived: ['text1', 'text2', 'text3'],
+							text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 },
+							text2: {
+								hsl: {
+									hsl: [150, 0, 100],
+									derived: ['text1'],
+									text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 }
+								},
+								saturation: 0,
+								lightness: 100
+							},
+							text3: {
+								hsl: {
+									hsl: [150, 0, 100],
+									derived: ['text1', 'text2'],
+									text1: {
+										hsl: { hsl: [150, 0, 100], derived: [] },
+										saturation: 0,
+										lightness: 100
+									},
+									text2: {
+										hsl: {
+											hsl: [150, 0, 100],
+											derived: ['text1'],
+											text1: {
+												hsl: { hsl: [150, 0, 100], derived: [] },
+												saturation: 0,
+												lightness: 100
+											}
+										},
+										saturation: 0,
+										lightness: 100
+									}
+								},
+								saturation: 0,
+								lightness: 100
+							}
+						},
+						saturation: 0,
+						lightness: 0
+					}
+				},
+				saturation: 0,
+				lightness: 0
+			},
+			surface3: {
+				hsl: {
+					hsl: [150, 0, 100],
+					derived: ['text1', 'text2', 'text3', 'surface1', 'surface2'],
+					text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 },
+					text2: {
+						hsl: {
+							hsl: [150, 0, 100],
+							derived: ['text1'],
+							text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 }
+						},
+						saturation: 0,
+						lightness: 100
+					},
+					text3: {
+						hsl: {
+							hsl: [150, 0, 100],
+							derived: ['text1', 'text2'],
+							text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 },
+							text2: {
+								hsl: {
+									hsl: [150, 0, 100],
+									derived: ['text1'],
+									text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 }
+								},
+								saturation: 0,
+								lightness: 100
+							}
+						},
+						saturation: 0,
+						lightness: 100
+					},
+					surface1: {
+						hsl: {
+							hsl: [150, 0, 100],
+							derived: ['text1', 'text2', 'text3'],
+							text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 },
+							text2: {
+								hsl: {
+									hsl: [150, 0, 100],
+									derived: ['text1'],
+									text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 }
+								},
+								saturation: 0,
+								lightness: 100
+							},
+							text3: {
+								hsl: {
+									hsl: [150, 0, 100],
+									derived: ['text1', 'text2'],
+									text1: {
+										hsl: { hsl: [150, 0, 100], derived: [] },
+										saturation: 0,
+										lightness: 100
+									},
+									text2: {
+										hsl: {
+											hsl: [150, 0, 100],
+											derived: ['text1'],
+											text1: {
+												hsl: { hsl: [150, 0, 100], derived: [] },
+												saturation: 0,
+												lightness: 100
+											}
+										},
+										saturation: 0,
+										lightness: 100
+									}
+								},
+								saturation: 0,
+								lightness: 100
+							}
+						},
+						saturation: 0,
+						lightness: 0
+					},
+					surface2: {
+						hsl: {
+							hsl: [150, 0, 100],
+							derived: ['text1', 'text2', 'text3', 'surface1'],
+							text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 },
+							text2: {
+								hsl: {
+									hsl: [150, 0, 100],
+									derived: ['text1'],
+									text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 }
+								},
+								saturation: 0,
+								lightness: 100
+							},
+							text3: {
+								hsl: {
+									hsl: [150, 0, 100],
+									derived: ['text1', 'text2'],
+									text1: {
+										hsl: { hsl: [150, 0, 100], derived: [] },
+										saturation: 0,
+										lightness: 100
+									},
+									text2: {
+										hsl: {
+											hsl: [150, 0, 100],
+											derived: ['text1'],
+											text1: {
+												hsl: { hsl: [150, 0, 100], derived: [] },
+												saturation: 0,
+												lightness: 100
+											}
+										},
+										saturation: 0,
+										lightness: 100
+									}
+								},
+								saturation: 0,
+								lightness: 100
+							},
+							surface1: {
+								hsl: {
+									hsl: [150, 0, 100],
+									derived: ['text1', 'text2', 'text3'],
+									text1: {
+										hsl: { hsl: [150, 0, 100], derived: [] },
+										saturation: 0,
+										lightness: 100
+									},
+									text2: {
+										hsl: {
+											hsl: [150, 0, 100],
+											derived: ['text1'],
+											text1: {
+												hsl: { hsl: [150, 0, 100], derived: [] },
+												saturation: 0,
+												lightness: 100
+											}
+										},
+										saturation: 0,
+										lightness: 100
+									},
+									text3: {
+										hsl: {
+											hsl: [150, 0, 100],
+											derived: ['text1', 'text2'],
+											text1: {
+												hsl: { hsl: [150, 0, 100], derived: [] },
+												saturation: 0,
+												lightness: 100
+											},
+											text2: {
+												hsl: {
+													hsl: [150, 0, 100],
+													derived: ['text1'],
+													text1: {
+														hsl: { hsl: [150, 0, 100], derived: [] },
+														saturation: 0,
+														lightness: 100
+													}
+												},
+												saturation: 0,
+												lightness: 100
+											}
+										},
+										saturation: 0,
+										lightness: 100
+									}
+								},
+								saturation: 0,
+								lightness: 0
+							}
+						},
+						saturation: 0,
+						lightness: 0
+					}
+				},
+				saturation: 0,
+				lightness: 0
+			}
+		},
+		color2: {
+			hsl: [50, 0, 100],
+			derived: ['text1', 'surface1'],
+			text1: { hsl: { hsl: [50, 0, 100], derived: [] }, saturation: 0, lightness: 100 },
+			surface1: {
+				hsl: {
+					hsl: [50, 0, 100],
+					derived: ['text1'],
+					text1: { hsl: { hsl: [50, 0, 100], derived: [] }, saturation: 0, lightness: 100 }
+				},
+				saturation: 0,
+				lightness: 0
+			}
+		},
+		parameters: { divisors: { saturation: 100, lightness: 100 } }
+	},
+	config: {
+		colors: {
+			main: ['color1', 'color2'],
+			variantCategories: ['text', 'surface'],
+			color1: { default: [150, 0, 100], variants: { surface: 3, text: 3, other: 0 } },
+			color2: { default: [50, 0, 100], variants: { surface: 1, text: 1, other: 0 } }
+		},
+		themes: {
+			options: ['light', 'dark'],
+			light: {
+				config: { otherParams: [] },
+				categories: {
+					text: {
+						parameters: ['saturation', 'lightness'],
+						saturation: { min: 0, max: 50, step: 1, default: 0 },
+						lightness: { min: 0, max: 50, step: 1, default: 0 }
+					},
+					surface: {
+						parameters: ['saturation', 'lightness'],
+						saturation: { min: 0, max: 50, step: 1, default: 0 },
+						lightness: { min: 0, max: 50, step: 1, default: 100 }
+					}
+				}
+			},
+			dark: {
+				config: { otherParams: ['divisors'] },
+				categories: {
+					text: {
+						parameters: ['saturation', 'lightness'],
+						saturation: { min: 0, max: 50, step: 1, default: 0 },
+						lightness: { min: 0, max: 50, step: 1, default: 100 }
+					},
+					surface: {
+						parameters: ['saturation', 'lightness'],
+						saturation: { min: 0, max: 50, step: 1, default: 0 },
+						lightness: { min: 0, max: 50, step: 1, default: 0 }
+					},
+					divisors: {
+						parameters: ['saturation', 'lightness'],
+						saturation: { min: 0, max: 5, step: 0.1, default: 100 },
+						lightness: { min: 0, max: 5, step: 0.1, default: 100 }
+					}
+				}
+			}
+		},
+		properties: {
+			outline: {
+				variants: [
+					{
+						colorIndex: 1,
+						category: 'surface',
+						categoryIndex: 0,
+						colorReplace: 'outline-color',
+						name: 'color-2-outline-1'
+					}
+				]
+			},
+			border: {
+				variants: [
+					{
+						colorIndex: 0,
+						category: 'text',
+						categoryIndex: 1,
+						colorReplace: 'border-color',
+						name: 'color-1-border-1'
+					},
+					{
+						colorIndex: 0,
+						category: 'surface',
+						categoryIndex: 1,
+						colorReplace: 'border-color',
+						name: 'color-1-border-2'
+					},
+					{
+						colorIndex: 1,
+						category: 'surface',
+						categoryIndex: 0,
+						colorReplace: 'border-color',
+						name: 'color-1-border-3'
+					}
+				]
+			},
+			ring: {
+				variants: [
+					{
+						colorIndex: 0,
+						category: 'text',
+						categoryIndex: 2,
+						colorReplace: '--tw-ring-color',
+						name: 'color-1-ring-2'
+					},
+					{
+						colorIndex: 0,
+						category: 'main',
+						categoryIndex: 0,
+						colorReplace: '--tw-ring-color',
+						name: 'color-1-ring-1'
+					},
+					{
+						colorIndex: 1,
+						category: 'main',
+						categoryIndex: 0,
+						colorReplace: '--tw-ring-color',
+						name: 'color-2-ring-1'
+					},
+					{
+						colorIndex: 1,
+						category: 'surface',
+						categoryIndex: 0,
+						colorReplace: '--tw-ring-color',
+						name: 'color-2-ring-2'
+					},
+					{
+						colorIndex: 1,
+						category: 'main',
+						categoryIndex: 0,
+						colorReplace: '--tw-ring-color',
+						opacity: 0.5,
+						name: 'color-2-ring-3'
+					}
+				]
+			},
+			opacity: {
+				variants: [
+					{
+						colorIndex: 0,
+						category: 'surface',
+						categoryIndex: 1,
+						colorReplace: 'background-color',
+						opacity: 0.5,
+						name: 'color-1-surface-2-opacity-50'
+					},
+					{
+						colorIndex: 1,
+						category: 'surface',
+						categoryIndex: 0,
+						colorReplace: 'background-color',
+						opacity: 0.75,
+						themeSpecificMods: { dark: { opacity: 0.5 } },
+						name: 'color-2-surface-1-opacity-50'
+					}
+				]
+			}
+		}
+	}
+});
+/** @end {colorParametersStore} */
 
+/** @name {colorsStore}
+	@start {colorsStore} */
+export const colors = writable({
+	currentTheme: 'light',
+	themes: {
+		light: {
+			color1: {
+				hsl: [150, 0, 100],
+				text1: { hsl: { hsl: [150, 0, 100], derived: [] } },
+				text2: {
+					hsl: {
+						hsl: [150, 0, 100],
+						derived: ['text1'],
+						text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 }
+					}
+				},
+				text3: {
+					hsl: {
+						hsl: [150, 0, 100],
+						derived: ['text1', 'text2'],
+						text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 },
+						text2: {
+							hsl: {
+								hsl: [150, 0, 100],
+								derived: ['text1'],
+								text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 }
+							},
+							saturation: 0,
+							lightness: 0
+						}
+					}
+				},
+				surface1: {
+					hsl: {
+						hsl: [150, 0, 100],
+						derived: ['text1', 'text2', 'text3'],
+						text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 },
+						text2: {
+							hsl: {
+								hsl: [150, 0, 100],
+								derived: ['text1'],
+								text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 }
+							},
+							saturation: 0,
+							lightness: 0
+						},
+						text3: {
+							hsl: {
+								hsl: [150, 0, 100],
+								derived: ['text1', 'text2'],
+								text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 },
+								text2: {
+									hsl: {
+										hsl: [150, 0, 100],
+										derived: ['text1'],
+										text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 }
+									},
+									saturation: 0,
+									lightness: 0
+								}
+							},
+							saturation: 0,
+							lightness: 0
+						}
+					}
+				},
+				surface2: {
+					hsl: {
+						hsl: [150, 0, 100],
+						derived: ['text1', 'text2', 'text3', 'surface1'],
+						text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 },
+						text2: {
+							hsl: {
+								hsl: [150, 0, 100],
+								derived: ['text1'],
+								text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 }
+							},
+							saturation: 0,
+							lightness: 0
+						},
+						text3: {
+							hsl: {
+								hsl: [150, 0, 100],
+								derived: ['text1', 'text2'],
+								text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 },
+								text2: {
+									hsl: {
+										hsl: [150, 0, 100],
+										derived: ['text1'],
+										text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 }
+									},
+									saturation: 0,
+									lightness: 0
+								}
+							},
+							saturation: 0,
+							lightness: 0
+						},
+						surface1: {
+							hsl: {
+								hsl: [150, 0, 100],
+								derived: ['text1', 'text2', 'text3'],
+								text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 },
+								text2: {
+									hsl: {
+										hsl: [150, 0, 100],
+										derived: ['text1'],
+										text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 }
+									},
+									saturation: 0,
+									lightness: 0
+								},
+								text3: {
+									hsl: {
+										hsl: [150, 0, 100],
+										derived: ['text1', 'text2'],
+										text1: {
+											hsl: { hsl: [150, 0, 100], derived: [] },
+											saturation: 0,
+											lightness: 0
+										},
+										text2: {
+											hsl: {
+												hsl: [150, 0, 100],
+												derived: ['text1'],
+												text1: {
+													hsl: { hsl: [150, 0, 100], derived: [] },
+													saturation: 0,
+													lightness: 0
+												}
+											},
+											saturation: 0,
+											lightness: 0
+										}
+									},
+									saturation: 0,
+									lightness: 0
+								}
+							},
+							saturation: 0,
+							lightness: 100
+						}
+					}
+				},
+				surface3: {
+					hsl: {
+						hsl: [150, 0, 100],
+						derived: ['text1', 'text2', 'text3', 'surface1', 'surface2'],
+						text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 },
+						text2: {
+							hsl: {
+								hsl: [150, 0, 100],
+								derived: ['text1'],
+								text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 }
+							},
+							saturation: 0,
+							lightness: 0
+						},
+						text3: {
+							hsl: {
+								hsl: [150, 0, 100],
+								derived: ['text1', 'text2'],
+								text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 },
+								text2: {
+									hsl: {
+										hsl: [150, 0, 100],
+										derived: ['text1'],
+										text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 }
+									},
+									saturation: 0,
+									lightness: 0
+								}
+							},
+							saturation: 0,
+							lightness: 0
+						},
+						surface1: {
+							hsl: {
+								hsl: [150, 0, 100],
+								derived: ['text1', 'text2', 'text3'],
+								text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 },
+								text2: {
+									hsl: {
+										hsl: [150, 0, 100],
+										derived: ['text1'],
+										text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 }
+									},
+									saturation: 0,
+									lightness: 0
+								},
+								text3: {
+									hsl: {
+										hsl: [150, 0, 100],
+										derived: ['text1', 'text2'],
+										text1: {
+											hsl: { hsl: [150, 0, 100], derived: [] },
+											saturation: 0,
+											lightness: 0
+										},
+										text2: {
+											hsl: {
+												hsl: [150, 0, 100],
+												derived: ['text1'],
+												text1: {
+													hsl: { hsl: [150, 0, 100], derived: [] },
+													saturation: 0,
+													lightness: 0
+												}
+											},
+											saturation: 0,
+											lightness: 0
+										}
+									},
+									saturation: 0,
+									lightness: 0
+								}
+							},
+							saturation: 0,
+							lightness: 100
+						},
+						surface2: {
+							hsl: {
+								hsl: [150, 0, 100],
+								derived: ['text1', 'text2', 'text3', 'surface1'],
+								text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 },
+								text2: {
+									hsl: {
+										hsl: [150, 0, 100],
+										derived: ['text1'],
+										text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 0 }
+									},
+									saturation: 0,
+									lightness: 0
+								},
+								text3: {
+									hsl: {
+										hsl: [150, 0, 100],
+										derived: ['text1', 'text2'],
+										text1: {
+											hsl: { hsl: [150, 0, 100], derived: [] },
+											saturation: 0,
+											lightness: 0
+										},
+										text2: {
+											hsl: {
+												hsl: [150, 0, 100],
+												derived: ['text1'],
+												text1: {
+													hsl: { hsl: [150, 0, 100], derived: [] },
+													saturation: 0,
+													lightness: 0
+												}
+											},
+											saturation: 0,
+											lightness: 0
+										}
+									},
+									saturation: 0,
+									lightness: 0
+								},
+								surface1: {
+									hsl: {
+										hsl: [150, 0, 100],
+										derived: ['text1', 'text2', 'text3'],
+										text1: {
+											hsl: { hsl: [150, 0, 100], derived: [] },
+											saturation: 0,
+											lightness: 0
+										},
+										text2: {
+											hsl: {
+												hsl: [150, 0, 100],
+												derived: ['text1'],
+												text1: {
+													hsl: { hsl: [150, 0, 100], derived: [] },
+													saturation: 0,
+													lightness: 0
+												}
+											},
+											saturation: 0,
+											lightness: 0
+										},
+										text3: {
+											hsl: {
+												hsl: [150, 0, 100],
+												derived: ['text1', 'text2'],
+												text1: {
+													hsl: { hsl: [150, 0, 100], derived: [] },
+													saturation: 0,
+													lightness: 0
+												},
+												text2: {
+													hsl: {
+														hsl: [150, 0, 100],
+														derived: ['text1'],
+														text1: {
+															hsl: { hsl: [150, 0, 100], derived: [] },
+															saturation: 0,
+															lightness: 0
+														}
+													},
+													saturation: 0,
+													lightness: 0
+												}
+											},
+											saturation: 0,
+											lightness: 0
+										}
+									},
+									saturation: 0,
+									lightness: 100
+								}
+							},
+							saturation: 0,
+							lightness: 100
+						}
+					}
+				}
+			},
+			color2: {
+				hsl: [50, 0, 100],
+				text1: { hsl: { hsl: [50, 0, 100], derived: [] } },
+				surface1: {
+					hsl: {
+						hsl: [50, 0, 100],
+						derived: ['text1'],
+						text1: { hsl: { hsl: [50, 0, 100], derived: [] }, saturation: 0, lightness: 0 }
+					}
+				}
+			}
+		},
+		dark: {
+			color1: {
+				hsl: [150, 0, 100],
+				text1: { hsl: { hsl: [150, 0, 100], derived: [] } },
+				text2: {
+					hsl: {
+						hsl: [150, 0, 100],
+						derived: ['text1'],
+						text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 }
+					}
+				},
+				text3: {
+					hsl: {
+						hsl: [150, 0, 100],
+						derived: ['text1', 'text2'],
+						text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 },
+						text2: {
+							hsl: {
+								hsl: [150, 0, 100],
+								derived: ['text1'],
+								text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 }
+							},
+							saturation: 0,
+							lightness: 100
+						}
+					}
+				},
+				surface1: {
+					hsl: {
+						hsl: [150, 0, 100],
+						derived: ['text1', 'text2', 'text3'],
+						text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 },
+						text2: {
+							hsl: {
+								hsl: [150, 0, 100],
+								derived: ['text1'],
+								text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 }
+							},
+							saturation: 0,
+							lightness: 100
+						},
+						text3: {
+							hsl: {
+								hsl: [150, 0, 100],
+								derived: ['text1', 'text2'],
+								text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 },
+								text2: {
+									hsl: {
+										hsl: [150, 0, 100],
+										derived: ['text1'],
+										text1: {
+											hsl: { hsl: [150, 0, 100], derived: [] },
+											saturation: 0,
+											lightness: 100
+										}
+									},
+									saturation: 0,
+									lightness: 100
+								}
+							},
+							saturation: 0,
+							lightness: 100
+						}
+					}
+				},
+				surface2: {
+					hsl: {
+						hsl: [150, 0, 100],
+						derived: ['text1', 'text2', 'text3', 'surface1'],
+						text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 },
+						text2: {
+							hsl: {
+								hsl: [150, 0, 100],
+								derived: ['text1'],
+								text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 }
+							},
+							saturation: 0,
+							lightness: 100
+						},
+						text3: {
+							hsl: {
+								hsl: [150, 0, 100],
+								derived: ['text1', 'text2'],
+								text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 },
+								text2: {
+									hsl: {
+										hsl: [150, 0, 100],
+										derived: ['text1'],
+										text1: {
+											hsl: { hsl: [150, 0, 100], derived: [] },
+											saturation: 0,
+											lightness: 100
+										}
+									},
+									saturation: 0,
+									lightness: 100
+								}
+							},
+							saturation: 0,
+							lightness: 100
+						},
+						surface1: {
+							hsl: {
+								hsl: [150, 0, 100],
+								derived: ['text1', 'text2', 'text3'],
+								text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 },
+								text2: {
+									hsl: {
+										hsl: [150, 0, 100],
+										derived: ['text1'],
+										text1: {
+											hsl: { hsl: [150, 0, 100], derived: [] },
+											saturation: 0,
+											lightness: 100
+										}
+									},
+									saturation: 0,
+									lightness: 100
+								},
+								text3: {
+									hsl: {
+										hsl: [150, 0, 100],
+										derived: ['text1', 'text2'],
+										text1: {
+											hsl: { hsl: [150, 0, 100], derived: [] },
+											saturation: 0,
+											lightness: 100
+										},
+										text2: {
+											hsl: {
+												hsl: [150, 0, 100],
+												derived: ['text1'],
+												text1: {
+													hsl: { hsl: [150, 0, 100], derived: [] },
+													saturation: 0,
+													lightness: 100
+												}
+											},
+											saturation: 0,
+											lightness: 100
+										}
+									},
+									saturation: 0,
+									lightness: 100
+								}
+							},
+							saturation: 0,
+							lightness: 0
+						}
+					}
+				},
+				surface3: {
+					hsl: {
+						hsl: [150, 0, 100],
+						derived: ['text1', 'text2', 'text3', 'surface1', 'surface2'],
+						text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 },
+						text2: {
+							hsl: {
+								hsl: [150, 0, 100],
+								derived: ['text1'],
+								text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 }
+							},
+							saturation: 0,
+							lightness: 100
+						},
+						text3: {
+							hsl: {
+								hsl: [150, 0, 100],
+								derived: ['text1', 'text2'],
+								text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 },
+								text2: {
+									hsl: {
+										hsl: [150, 0, 100],
+										derived: ['text1'],
+										text1: {
+											hsl: { hsl: [150, 0, 100], derived: [] },
+											saturation: 0,
+											lightness: 100
+										}
+									},
+									saturation: 0,
+									lightness: 100
+								}
+							},
+							saturation: 0,
+							lightness: 100
+						},
+						surface1: {
+							hsl: {
+								hsl: [150, 0, 100],
+								derived: ['text1', 'text2', 'text3'],
+								text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 },
+								text2: {
+									hsl: {
+										hsl: [150, 0, 100],
+										derived: ['text1'],
+										text1: {
+											hsl: { hsl: [150, 0, 100], derived: [] },
+											saturation: 0,
+											lightness: 100
+										}
+									},
+									saturation: 0,
+									lightness: 100
+								},
+								text3: {
+									hsl: {
+										hsl: [150, 0, 100],
+										derived: ['text1', 'text2'],
+										text1: {
+											hsl: { hsl: [150, 0, 100], derived: [] },
+											saturation: 0,
+											lightness: 100
+										},
+										text2: {
+											hsl: {
+												hsl: [150, 0, 100],
+												derived: ['text1'],
+												text1: {
+													hsl: { hsl: [150, 0, 100], derived: [] },
+													saturation: 0,
+													lightness: 100
+												}
+											},
+											saturation: 0,
+											lightness: 100
+										}
+									},
+									saturation: 0,
+									lightness: 100
+								}
+							},
+							saturation: 0,
+							lightness: 0
+						},
+						surface2: {
+							hsl: {
+								hsl: [150, 0, 100],
+								derived: ['text1', 'text2', 'text3', 'surface1'],
+								text1: { hsl: { hsl: [150, 0, 100], derived: [] }, saturation: 0, lightness: 100 },
+								text2: {
+									hsl: {
+										hsl: [150, 0, 100],
+										derived: ['text1'],
+										text1: {
+											hsl: { hsl: [150, 0, 100], derived: [] },
+											saturation: 0,
+											lightness: 100
+										}
+									},
+									saturation: 0,
+									lightness: 100
+								},
+								text3: {
+									hsl: {
+										hsl: [150, 0, 100],
+										derived: ['text1', 'text2'],
+										text1: {
+											hsl: { hsl: [150, 0, 100], derived: [] },
+											saturation: 0,
+											lightness: 100
+										},
+										text2: {
+											hsl: {
+												hsl: [150, 0, 100],
+												derived: ['text1'],
+												text1: {
+													hsl: { hsl: [150, 0, 100], derived: [] },
+													saturation: 0,
+													lightness: 100
+												}
+											},
+											saturation: 0,
+											lightness: 100
+										}
+									},
+									saturation: 0,
+									lightness: 100
+								},
+								surface1: {
+									hsl: {
+										hsl: [150, 0, 100],
+										derived: ['text1', 'text2', 'text3'],
+										text1: {
+											hsl: { hsl: [150, 0, 100], derived: [] },
+											saturation: 0,
+											lightness: 100
+										},
+										text2: {
+											hsl: {
+												hsl: [150, 0, 100],
+												derived: ['text1'],
+												text1: {
+													hsl: { hsl: [150, 0, 100], derived: [] },
+													saturation: 0,
+													lightness: 100
+												}
+											},
+											saturation: 0,
+											lightness: 100
+										},
+										text3: {
+											hsl: {
+												hsl: [150, 0, 100],
+												derived: ['text1', 'text2'],
+												text1: {
+													hsl: { hsl: [150, 0, 100], derived: [] },
+													saturation: 0,
+													lightness: 100
+												},
+												text2: {
+													hsl: {
+														hsl: [150, 0, 100],
+														derived: ['text1'],
+														text1: {
+															hsl: { hsl: [150, 0, 100], derived: [] },
+															saturation: 0,
+															lightness: 100
+														}
+													},
+													saturation: 0,
+													lightness: 100
+												}
+											},
+											saturation: 0,
+											lightness: 100
+										}
+									},
+									saturation: 0,
+									lightness: 0
+								}
+							},
+							saturation: 0,
+							lightness: 0
+						}
+					}
+				}
+			},
+			color2: {
+				hsl: [50, 0, 100],
+				text1: { hsl: { hsl: [50, 0, 100], derived: [] } },
+				surface1: {
+					hsl: {
+						hsl: [50, 0, 100],
+						derived: ['text1'],
+						text1: { hsl: { hsl: [50, 0, 100], derived: [] }, saturation: 0, lightness: 100 }
+					}
+				}
+			}
+		}
+	}
+});
+/** @end {colorsStore} */
 
-export const colorParameters = writable({"mainColors":{"color1":{"hsl":[150,50,50]},"color2":{"hsl":[150,50,50]}},"light":{"color1":{"hsl":[150,50,50],"derived":["text1","text2","text3","surface1","surface2","surface3"],"text1":{"hsl":[150,50,50],"saturation":10,"lightness":5},"text2":{"hsl":[150,50,50],"saturation":10,"lightness":5},"text3":{"hsl":[150,50,50],"saturation":10,"lightness":5},"surface1":{"hsl":[150,50,50],"saturation":15,"lightness":80},"surface2":{"hsl":[150,50,50],"saturation":15,"lightness":80},"surface3":{"hsl":[150,50,50],"saturation":15,"lightness":80}},"color2":{"hsl":[150,50,50],"derived":["text1","surface1"],"text1":{"hsl":[150,50,50],"saturation":10,"lightness":5},"surface1":{"hsl":[150,50,50],"saturation":15,"lightness":80}}},"dark":{"color1":{"hsl":[150,50,50],"derived":["text1","text2","text3","surface1","surface2","surface3"],"text1":{"hsl":[150,50,50],"saturation":10,"lightness":90},"text2":{"hsl":[150,50,50],"saturation":10,"lightness":90},"text3":{"hsl":[150,50,50],"saturation":10,"lightness":90},"surface1":{"hsl":[150,50,50],"saturation":15,"lightness":5},"surface2":{"hsl":[150,50,50],"saturation":15,"lightness":5},"surface3":{"hsl":[150,50,50],"saturation":15,"lightness":5}},"color2":{"hsl":[150,50,50],"derived":["text1","surface1"],"text1":{"hsl":[150,50,50],"saturation":10,"lightness":90},"surface1":{"hsl":[150,50,50],"saturation":15,"lightness":5}},"parameters":{"divisors":{"saturation":2,"lightness":2}}},"config":{"colors":{"main":["color1","color2"],"variantCategories":["text","surface"],"color1":{"variants":{"surface":3,"text":3,"other":0}},"color2":{"variants":{"surface":1,"text":1,"other":0}}},"themes":{"options":["light","dark"],"light":{"config":{"otherParams":[]},"categories":{"text":{"parameters":["saturation","lightness"],"saturation":{"min":0,"max":50,"step":1,"default":10},"lightness":{"min":0,"max":50,"step":1,"default":5}},"surface":{"parameters":["saturation","lightness"],"saturation":{"min":0,"max":50,"step":1,"default":15},"lightness":{"min":0,"max":50,"step":1,"default":80}}}},"dark":{"config":{"otherParams":["divisors"]},"categories":{"text":{"parameters":["saturation","lightness"],"saturation":{"min":0,"max":50,"step":1,"default":10},"lightness":{"min":0,"max":50,"step":1,"default":90}},"surface":{"parameters":["saturation","lightness"],"saturation":{"min":0,"max":50,"step":1,"default":15},"lightness":{"min":0,"max":50,"step":1,"default":5}},"divisors":{"parameters":["saturation","lightness"],"saturation":{"min":0,"max":5,"step":0.1,"default":2},"lightness":{"min":0,"max":5,"step":0.1,"default":2}}}}},"properties":{"outline":{"variants":[{"colorIndex":1,"category":"surface","categoryIndex":0,"colorReplace":"outline-color","name":"color-2-outline-1"}]},"border":{"variants":[{"colorIndex":0,"category":"surface","categoryIndex":1,"colorReplace":"border-color","name":"color-1-border-1"},{"colorIndex":0,"category":"text","categoryIndex":1,"colorReplace":"border-color","name":"color-1-border-2"},{"colorIndex":1,"category":"surface","categoryIndex":0,"colorReplace":"border-color","name":"color-1-border-3"}]},"ring":{"variants":[{"colorIndex":0,"category":"main","categoryIndex":0,"colorReplace":"--tw-ring-color","name":"color-1-ring-1"},{"colorIndex":0,"category":"text","categoryIndex":2,"colorReplace":"--tw-ring-color","name":"color-1-ring-2"},{"colorIndex":1,"category":"main","categoryIndex":0,"colorReplace":"--tw-ring-color","name":"color-2-ring-1"},{"colorIndex":1,"category":"surface","categoryIndex":0,"colorReplace":"--tw-ring-color","name":"color-2-ring-2"},{"colorIndex":1,"category":"main","categoryIndex":0,"colorReplace":"--tw-ring-color","opacity":0.5,"name":"color-2-ring-3"}]},"opacity":{"variants":[{"colorIndex":0,"category":"surface","categoryIndex":1,"colorReplace":"background-color","opacity":0.5,"name":"color-1-surface-2-opacity-50"},{"colorIndex":1,"category":"surface","categoryIndex":0,"colorReplace":"background-color","opacity":0.75,"themeSpecificMods":{"dark":{"opacity":0.5}},"name":"color-2-surface-1-opacity-50"}]}},"shadows":{"base":{"default":"box-shadow: 0 4px 6px -1px hsla(var(--placeholder-hue-1), var(--placeholder-sat-1), var(--placeholder-light-1),--placeholder-opacity-1), \\n\\t\\t0 2px 4px -1px hsla(var(--placeholder-hue-1), var(--placeholder-sat-1), var(--placeholder-light-1),--placeholder-opacity-2);","themeSpecificMods":{"dark":"box-shadow: 0 4px 6px -1px hsla(var(--placeholder-hue-1), var(--placeholder-sat-1), var(--placeholder-light-1),--placeholder-opacity-1), \\n\\t\\t0 2px 4px -1px hsla(var(--placeholder-hue-1), var(--placeholder-sat-1), var(--placeholder-light-1),--placeholder-opacity-2);"},"colorVariants":[{"colorIndex":0,"category":"main","opacity1":0.2,"opacity2":0.1,"themeSpecificMods":{"dark":{"opacity1":0.1,"opacity2":0.05}}},{"colorIndex":1,"category":"main","opacity1":0.2,"opacity2":0.1,"themeSpecificMods":{"dark":{"opacity1":0.1,"opacity2":0.05}}}]},"md":{"default":"box-shadow: 0 10px 15px -3px hsla(var(--placeholder-hue-1), var(--placeholder-sat-1), var(--placeholder-light-1),--placeholder-opacity-1), \\n\\t\\t0 4px 6px -2px hsla(var(--placeholder-hue-1), var(--placeholder-sat-1), var(--placeholder-light-1),--placeholder-opacity-2);","themeSpecificMods":{"dark":"box-shadow: 0 4px 6px -1px hsla(var(--placeholder-hue-1), var(--placeholder-sat-1), var(--placeholder-light-1),--placeholder-opacity-1), \\n\\t\\t0 2px 4px -1px hsla(var(--placeholder-hue-1), var(--placeholder-sat-1), var(--placeholder-light-1),--placeholder-opacity-2);"},"colorVariants":[{"colorIndex":0,"category":"main","opacity1":0.2,"opacity2":0.1,"themeSpecificMods":{"dark":{"opacity1":0.1,"opacity2":0.05}}},{"colorIndex":1,"category":"main","opacity1":0.2,"opacity2":0.1,"themeSpecificMods":{"dark":{"opacity1":0.1,"opacity2":0.05}}}]},"lg":{"default":"box-shadow: 0 20px 25px -5px hsla(var(--placeholder-hue-1), var(--placeholder-sat-1), var(--placeholder-light-1),--placeholder-opacity-1), \\n\\t\\t0 10px 10px -5px hsla(var(--placeholder-hue-1), var(--placeholder-sat-1), var(--placeholder-light-1),--placeholder-opacity-2);","themeSpecificMods":{"dark":"box-shadow: 0 4px 6px -1px hsla(var(--placeholder-hue-1), var(--placeholder-sat-1), var(--placeholder-light-1),--placeholder-opacity-1), \\n\\t\\t0 2px 4px -1px hsla(var(--placeholder-hue-1), var(--placeholder-sat-1), var(--placeholder-light-1),--placeholder-opacity-2);"},"colorVariants":[{"colorIndex":0,"category":"main","opacity1":0.2,"opacity2":0.1,"themeSpecificMods":{"dark":{"opacity1":0.1,"opacity2":0.05}}},{"colorIndex":1,"category":"main","opacity1":0.2,"opacity2":0.1,"themeSpecificMods":{"dark":{"opacity1":0.1,"opacity2":0.05}}}]}}}});
-
-
-
-export const colors = writable({"currentTheme":"light","themes":{"light":{"color1":{"hsl":[150,50,50],"text1":{"hsl":[150,50,50]},"text2":{"hsl":[150,50,50]},"text3":{"hsl":[150,50,50]},"surface1":{"hsl":[150,50,50]},"surface2":{"hsl":[150,50,50]},"surface3":{"hsl":[150,50,50]}},"color2":{"hsl":[150,50,50],"text1":{"hsl":[150,50,50]},"surface1":{"hsl":[150,50,50]}}},"dark":{"color1":{"hsl":[150,50,50],"text1":{"hsl":[150,50,50]},"text2":{"hsl":[150,50,50]},"text3":{"hsl":[150,50,50]},"surface1":{"hsl":[150,50,50]},"surface2":{"hsl":[150,50,50]},"surface3":{"hsl":[150,50,50]}},"color2":{"hsl":[150,50,50],"text1":{"hsl":[150,50,50]},"surface1":{"hsl":[150,50,50]}}}}}); 
-
-
-
-
-export const color_palette = derived(
-	colors,
-	$colors => (($colors.currentMode == 'light') ? $colors.themes.light : $colors.themes.dark)
+export const colorPalette = derived(colors, ($colors) =>
+	$colors.currentTheme == 'light' ? $colors.themes.light : $colors.themes.dark
 );
 
-
 export const device = writable({
-    'windowWidth': 100,
-    'windowHeight': 100
+	windowWidth: 0,
+	windowHeight: 0
 });
-

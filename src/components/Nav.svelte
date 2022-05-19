@@ -2,65 +2,56 @@
 	import MobileMenu from './MobileMenu.svelte';
 	import { REPO_URL } from '$lib/siteConfig';
 	import NavLink from './NavLink.svelte';
-	import {colors} from '../stores/layout.js';
+	import { colors } from '../stores/layout.js';
 	import { menuLayout } from '$lib/layoutConfig';
-	let isDark = false;
 	if (typeof localStorage !== 'undefined') {
 		if (
 			localStorage.theme === 'dark' ||
 			(!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
 		) {
-			isDark = true;
-
-			$colors.currentMode = 'dark';
+			$colors.currentTheme = 'dark';
 		}
 	}
 	function toggleDarkMode() {
-		if (isDark) {
+		if ($colors.currentTheme == 'dark') {
 			document.documentElement.classList.remove('dark');
 			localStorage.theme = 'light';
-			isDark = false;
-
-			$colors.currentMode = 'light';
+			$colors.currentTheme = 'light';
 		} else {
 			document.documentElement.classList.add('dark');
 			localStorage.theme = 'dark';
-			isDark = true;
-			$colors.currentMode = 'dark';
+			$colors.currentTheme = 'dark';
 		}
-
 	}
 </script>
 
 <nav
-	class="relative mx-auto flex w-full max-w-4xl items-center justify-between
-	 bg-opacity-60 py-8 color-1-text-1 color-1-border-1 md:px-6"
+	class="color-1-text-1 color-1-border-1 relative mx-auto flex w-full max-w-4xl
+	 items-center justify-between bg-opacity-60 py-8 md:px-6"
 >
-
 	<MobileMenu />
 	<ul class="ml-[-0.60rem] flex">
 		{#each menuLayout.options as menuOption}
-		<li>
-			<NavLink href={menuOption.href}>{menuOption.name}</NavLink>
-		</li>
+			<li>
+				<NavLink href={menuOption.href}>{menuOption.name}</NavLink>
+			</li>
 		{/each}
-
 	</ul>
 
 	<div class="relative flex items-center space-x-4">
 		<button
 			aria-label="Toggle Dark Mode"
-			class="ml-1 flex h-9 w-9 items-center justify-center rounded-lg
-			transition-all hover:ring-2 color-2-surface-1 color-2-ring-1"
+			class="color-2-surface-1 color-1-ring-1 ml-1 flex h-9 w-9 items-center
+			justify-center rounded-lg hover:ring-2"
 			on:click={toggleDarkMode}
 		>
-			{#if isDark}
+			{#if $colors.currentTheme == 'dark'}
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					viewBox="0 0 24 24"
 					fill="none"
 					stroke="currentColor"
-					class="h-5 w-5 color-1-text-1"
+					class="color-1-text-1 h-5 w-5"
 				>
 					<path
 						stroke-linecap="round"
@@ -89,4 +80,3 @@
 		</button>
 	</div>
 </nav>
-

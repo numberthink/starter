@@ -21,10 +21,9 @@
 			} else {
 				document.documentElement.classList.remove('dark');
 			}
-			
+
 			const isBrowser = () => typeof window !== 'undefined';
 			const isGlobal = () => typeof global !== 'undefined';
-
 
 			var exports = {};
 
@@ -34,7 +33,7 @@
 		</script>
 		%svelte.head%
 	</head>
-	<body class="vsc-initialized" >
+	<body class="vsc-initialized">
 		<div id="svelte">%svelte.body%</div>
 	</body>
 </html>

@@ -44,8 +44,7 @@ const config = {
 	],
 
 	kit: {
-		adapter: node({ out: 'build-node' }),
-
+		adapter: node({ out: 'build-node' })
 	}
 };
 
