@@ -18,5 +18,6 @@ export const colorPalette = derived(colors, ($colors) =>
 
 export const device = writable({
 	windowWidth: 0,
-	windowHeight: 0
+	windowHeight: 0,
+    scrollY: 0
 });

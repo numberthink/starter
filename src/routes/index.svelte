@@ -13,6 +13,7 @@
 
 <script>
 	import {vizState} from '../stores/env.js';
+import { device } from '../stores/layout.js';
 	/** @name {indexContentConfig}
  * 	@type {import('../lib/types').indexContentConfig} 
 	@start {indexContentConfig} */

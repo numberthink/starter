@@ -30,12 +30,16 @@ renderer.toneMappingExposure = 1.25;
 renderer.outPutEncoding = THREE.sRGBEncoding;
 
 //camera = new THREE.OrthographicCamera( - 1, 1, 1, - 1, -100, 100 );
-camera = new THREE.PerspectiveCamera(90, $device.windowWidth / $device.windowHeight);
+
+sceneUniforms = {};
+sceneUniforms['camera'] = {aspect: {value: $device.windowWidth / $device.windowHeight }};
+
+camera = new THREE.PerspectiveCamera(90, sceneUniforms.camera.aspect.value);
 camera.position.set( 0 , 0 , 5 );
 
 scene = new THREE.Scene();
 
-sceneUniforms = {};
+
 sceneUniforms.colors = [];
 sceneUniforms.colors.push({
     name: 'bgColor',
@@ -50,6 +54,7 @@ sceneUniforms.colors.push({
 })
 
 let bgColor = new THREE.Color('hsl('+ $colorPalette.color1.surface1.hsl[0] +', '+ $colorPalette.color1.surface1.hsl[1] +'%, '+ $colorPalette.color1.surface1.hsl[2] +'%)');
+
 renderer.setClearColor(bgColor,1);
 renderer.setPixelRatio( window.devicePixelRatio );
 renderer.setSize($device.windowWidth, $device.windowHeight);
@@ -99,7 +104,7 @@ sceneObjects['boxMesh'] = boxMesh;
 
 let boxAnimation1 = {
     onScrollY: 'animate',
-    speed: .2*Math.PI*2,
+    speed: .1*Math.PI*2,
     state: {lastValue: 0, newValue: 0, lastDeltaTime: 0, active: false, reverting: false, lastTransitionPct: 0},
     objectId: 'boxMesh',
     property: 'rotation',
@@ -117,7 +122,7 @@ boxAnimation3.onScrollY = 'pause';
 
 animation = {};
 animation.objects = [];
-animation.state = {scrolling: false, lastScrollY: 0, currentScrollY: 0};
+animation.state = {scrolling: false, lastScrollY: 0, currentScrollY: 0, scrollHeightChange: false};
 animation.scrollYActive = true;
 
 animation.objects.push(boxAnimation1);
@@ -170,6 +175,7 @@ const updateAnimation = () => {
 
     updateAnimationScroll();
     if (animation.state?.scrolling) {
+        
         animation.objects.forEach(thisAnimation => {
 
             if (thisAnimation.onScrollY == 'pause') {
@@ -213,6 +219,9 @@ const doScrollAnimation = (thisAnimation) => {
 }
 const updateAnimationScroll = () => {
     let scrollY = window.pageYOffset;
+    if (scrollY != $device.scrollY) {
+        $device.scrollY = scrollY;
+    }
     if (animation.scrollYActive) {
         if (animation.state.currentScrollY!=scrollY) {
             // scroll position changed!
@@ -228,6 +237,17 @@ const updateAnimationScroll = () => {
                 // already was scrolling, but need to update scroll position
                 animation.state.lastScrollY = animation.state.currentScrollY;
                 animation.state.currentScrollY = scrollY;
+
+                if (($device.windowWidth<640) && (!animation.state.scrollHeightChange)) {
+                    let oldHeight = $device.windowHeight;
+                    updateWindowSize();
+                    if ($device.windowHeight != oldHeight) {
+                        animation.state.scrollHeightChange = true;
+                    }
+                }
+
+
+
             }
 
         }
@@ -236,6 +256,7 @@ const updateAnimationScroll = () => {
             if (animation.state.scrolling) {
                 // still thinks it's scrolling, so need to set to false
                 animation.state.scrolling = false;
+                animation.state.scrollHeightChange = false;
             }
 
         }
@@ -287,8 +308,20 @@ const watchVizActive = vizState.subscribe(value => {
 
 const updateWindowSize = () => {
 
-$device.windowWidth = window.innerWidth;
-$device.windowHeight = window.innerHeight;
+let newWidth = window.innerWidth;
+let newHeight = window.innerHeight;
+if ((newWidth!=$device.windowWidth) || (newHeight!=$device.windowHeight)) {
+    $device.windowWidth = newWidth;
+    $device.windowHeight = newHeight;
+
+    if (sceneUniforms?.camera?.aspect) {
+        sceneUniforms.camera.aspect.value =  $device.windowWidth / $device.windowHeight;
+        camera.aspect = sceneUniforms.camera.aspect.value;
+        camera.updateProjectionMatrix();
+    }
+}
+
+
 
 
 }

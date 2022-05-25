@@ -27,7 +27,7 @@
 
 <nav
 	class="color-1-text-1 color-1-border-1 relative mx-auto flex w-full max-w-4xl
-	 items-center justify-between bg-opacity-60 py-8 md:px-6 z-10"
+	 items-center justify-between bg-opacity-60 py-8 md:px-6 z-20"
 >
 	<MobileMenu />
 	<ul class="ml-[-0.60rem] flex">

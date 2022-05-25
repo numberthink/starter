@@ -44,24 +44,6 @@ export type mobileMenuConfig = {
 	};
 };
 
-// let menuConfig = {
-// 	burgerHoverSlide: true,
-// 	burgerToXAnimation: true,
-// 	xHoverScale: true,
-// 	menuAnimation: true,
-// 	menuItemsOpacityAnimation: true,
-// 	animationSettings: {
-// 		burgerSlideOut: {duration: .4},
-// 		burgerSlideBack: {duration: .3},
-// 		burgerToX: {duration: .5},
-// 		burgerFade: {duration: .5},
-// 		xToFull: {duration: .2},
-// 		xHoverScale: {duration: .2, scale: 1.25},
-// 		menuSlideIn: {duration: .5},
-// 		menuSlideOut: {duration: .3},
-// 		menuFadeIn: {delay: .05, duration: .5, offsetDelay: .1}
-// 	}
 
-// }
 
 // use e.g. /** @type {import('$lib/types').testItem} */
