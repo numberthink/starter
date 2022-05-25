@@ -12,18 +12,15 @@
 </script>
 
 <script>
+	import {vizState} from '../stores/env.js';
 	/** @name {indexContentConfig}
  * 	@type {import('../lib/types').indexContentConfig} 
 	@start {indexContentConfig} */
-	const contentConfig = {
-		siteTitlePrefix: 'This is',
-		siteTitleSuffix: '!',
-		siteSubtitle: 'A starter kit for ',
-		siteSubtitleBold: 'SvelteKit + Tailwind + ThreeJS.',
-		repoSourceLink: true,
-		repoSourceLinkText: 'View source here!'
-	};
-	/** @end {indexContentConfig} */
+const contentConfig = {"siteTitlePrefix":"This is","siteTitleSuffix":"!","siteSubtitle":"A starter kit for ","siteSubtitleBold":"SvelteKit + Tailwind + ThreeJS.","repoSourceLink":true,"repoSourceLinkText":"View source here!"}
+/** @end {indexContentConfig} */
+
+	$vizState.active = true;
+	
 </script>
 
 <svelte:head>
@@ -43,7 +40,7 @@
 </svelte:head>
 
 <div
-	class="border-color-1 color-1-surface-1 mx-auto min-h-screen max-w-2xl px-4
+	class="border-color-1 mx-auto min-h-screen max-w-2xl px-4
 	 pb-16 pt-4 sm:px-8"
 >
 	<div class="flex flex-col-reverse items-start sm:flex-row">

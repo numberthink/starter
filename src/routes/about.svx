@@ -2,6 +2,10 @@
 <script context="module">
   export const prerender = true;
 </script>
+<script>
+import {vizState} from '../stores/env.js';
+$vizState.active = false;
+</script>
 
 # NumberThink Starter: A simple starter template for Svelte projects
 

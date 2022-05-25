@@ -11,25 +11,8 @@
 	/** @name {mobileMenuConfig}
  * 	@type {import('../lib/types').mobileMenuConfig} 
   @start {mobileMenuConfig} */
-	let menuConfig = {
-		burgerHoverSlide: true,
-		burgerToXAnimation: true,
-		xHoverScale: true,
-		menuAnimation: true,
-		menuItemsOpacityAnimation: true,
-		animationSettings: {
-			burgerSlideOut: { duration: 0.4 },
-			burgerSlideBack: { duration: 0.3 },
-			burgerToX: { duration: 0.5 },
-			burgerFade: { duration: 0.5 },
-			xToFull: { duration: 0.2 },
-			xHoverScale: { duration: 0.2, scale: 1.25 },
-			menuSlideIn: { duration: 0.5 },
-			menuSlideOut: { duration: 0.3 },
-			menuFadeIn: { delay: 0.05, duration: 0.5, offsetDelay: 0.1 }
-		}
-	};
-	/** @end {mobileMenuConfig} */
+let menuConfig = {"burgerHoverSlide":true,"burgerToXAnimation":true,"xHoverScale":true,"menuAnimation":true,"menuItemsOpacityAnimation":true,"animationSettings":{"burgerSlideOut":{"duration":0.4},"burgerSlideBack":{"duration":0.3},"burgerToX":{"duration":0.4},"burgerFade":{"duration":0.5},"xToFull":{"duration":0.1},"xHoverScale":{"duration":0.2,"scale":1.25},"menuSlideIn":{"duration":0.5},"menuSlideOut":{"duration":0.3},"menuFadeIn":{"delay":0.05,"duration":0.5,"offsetDelay":0.1}}};
+/** @end {mobileMenuConfig} */
 
 	// tranform animation settings based on config
 	if (!menuConfig.menuItemsOpacityAnimation) {
@@ -240,15 +223,15 @@
 		opacity: 0;
 	}
 	.xBurgerAnimate1 {
-		animation: burger-to-x-1 var(--burger-to-x-dur) ease-out;
+		animation: burger-to-x-1 var(--burger-to-x-dur) ease-in;
 		transform: translateX(10%) translateY(25%) rotate(-45deg);
 	}
 	.xBurgerAnimate2 {
-		animation: burger-to-x-2 var(--burger-to-x-dur) ease-out;
+		animation: burger-to-x-2 var(--burger-to-x-dur) ease-in;
 		transform: translateX(10%) translateY(-25%) rotate(45deg);
 	}
 	.xBurgerAfterAnimate {
-		animation: burger-x-grow var(--x-to-full-dur) ease-out;
+		animation: burger-x-grow var(--x-to-full-dur) ease-in;
 		transform: scale(1);
 		opacity: 1;
 	}
